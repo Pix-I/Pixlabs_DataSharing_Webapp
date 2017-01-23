@@ -1,0 +1,42 @@
+.footer{
+    font-family: "AvenirNext-UltraLight", serif;
+    position: absolute;
+    top: 1050px;
+    height: 150px;
+    left:0;
+    width:100%;
+    color: white;
+    background-color: #1d222f;
+}
+
+#footerLogo{
+    position: absolute;
+    top: 37px;
+    left: 150px;
+    width: 75px;
+    height: 75px;
+}
+#footerLimit{
+    position: absolute;
+    height: 1px;
+    background-color: white;
+    bottom: 140px;
+    width: 100%;
+}
+
+.footerCategories{
+    position: absolute;
+    left: 400px;
+    top:20px;
+
+
+}
+
+
+
+#footerFooter{
+    position: absolute;
+    bottom: 0px;
+    text-align: center;
+    width: 100%;
+}

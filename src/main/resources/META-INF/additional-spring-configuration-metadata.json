@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "mail.support.email",
+      "type": "java.lang.String",
+      "description": "Support email that'll send the registration/password recovery emails."
+    }
+  ]
+}

@@ -1,0 +1,233 @@
+.headerBackground{
+    height: 40px;
+    position: fixed;
+    top:0;
+    width: 100%;
+    left: 0;
+    background-color: #1d222f;
+}
+
+.header-login{
+    top:10px;
+    position: absolute;
+    right: 31px;
+
+}
+
+
+.userHeaderPart{
+    top:5px;
+    position: absolute;
+    right: 150px;
+    color: white;
+
+}
+.userHeaderPart button{
+    color: white !important;;
+    background-color: #1d222f;
+}
+
+.userHeaderPart button:hover{
+    color: white;
+    background-color: #2c3241 !important;;
+}
+
+.dropdown-menu {
+    background-color: #1d222f;
+}
+
+.dropdown-menu li{
+    background-color: #1d222f !important;;
+    color: white !important;
+}
+.dropdown-menu a{
+
+    background-color: #1d222f !important;;
+    color: white !important;
+}
+
+.dropdown-menu a:hover{
+    background-color:white!important;;
+    color: black !important;
+}
+
+
+
+.dropdown-menu li:hover{
+    background-color: #1d222f;
+    color: white;
+}
+
+
+.header-login{
+
+}
+
+.login-overlayStart{
+    font-size:20px;
+    cursor:pointer;
+    width: 100px;
+    border-radius: 9px;
+    color: white;
+}
+
+
+
+.login-overlayStart :hover{
+    width: 20px;
+    height: auto;
+    background-color: #38415c;
+
+}
+
+
+
+.overlay {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 40px;
+    left: 0;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0, 0.9);
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+.overlay-content {
+    top: 10%;
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+    margin-top: 30px;
+    position: relative;
+    /*! left: 40%; */
+}
+
+
+.overlay-login {
+    color: white;
+    display:block;
+    position: absolute;
+    width: 200px;
+    left: 500px;
+}
+.overlay-login form input,label{
+    display: block;
+    position: relative;
+    width: 200px;
+}
+
+
+.overlay-signup{
+    position: absolute;
+    left: 1100px;
+    color: white;
+    width: 200px;
+    display: block;
+}
+
+.overlay-title{
+    font-size: 50px;
+}
+
+.overlay-signup form input{
+    display: block;
+    position: relative;
+    width: 200px;
+}
+
+
+
+.overlay-signup form input:invalid{
+    border: 1px solid red;
+}
+
+
+
+
+.overlay a {
+    padding: 8px;
+    text-decoration: none;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.overlay a:hover, .overlay a:focus {
+    color: #f1f1f1;
+}
+
+.overlay .closebtn {
+    font-size: 36px;
+    position: absolute;
+    top: 20px;
+    right: 45px;
+}
+
+@media screen and (max-height: 450px) {
+    .overlay a {font-size: 20px}
+    .overlay .closebtn {
+        font-size: 40px;
+        top: 15px;
+        right: 35px;
+    }
+}
+
+
+.overlay-regsuccess{
+    visibility: hidden;
+    color: white;
+    position: relative;
+    top:00px;
+    right: 600px;
+}
+
+.overlay-regsuccess label,input{
+    right: 0px;
+    width: 800px;
+}
+
+
+
+.auth-error{
+    visibility: hidden;
+    color: red;
+    font-size: 12px;
+    position: absolute;
+    margin-top: 10px;
+    left: 200px;
+    width: 200px;
+}
+
+
+.action-confirmation{
+    visibility: hidden;
+}
+
+.confirmation-button{
+    background-color: #1d222f;
+    border: none;
+    color: white;
+    margin-top:10px;
+    padding: 10px;
+
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+input{
+    color: #000;
+}
+#overlay-auth{
+    width: 100%;
+    display: inline-block;
+}
+
+.auth-input{
+    height: 30px;
+}

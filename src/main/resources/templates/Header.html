@@ -1,0 +1,145 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<div th:fragment="Header">
+    <div class="headerBackground">
+
+        <div class="header-wrapper">
+
+            <link rel="stylesheet" type="text/css" href="../static/css/HeaderStyle.css"
+                  th:href="@{/css/HeaderStyle.css}"/>
+
+
+            <div class="headerBackground">
+
+                <div class="header-wrapper">
+                    <div class="user-navigation">
+                        <div class="header-login" sec:authorize="isAnonymous()">
+
+                            <div id="myNav" class="overlay">
+                                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                                <div class="overlay-content" id="overlay-content">
+                                    <div id="overlay-auth">
+                                        <div class="overlay-login" id="overlay-login">
+                                            <span class="overlay-title">Log in:</span>
+                                            <form th:action="@{/}"
+                                                  method="POST"
+                                                  name="loginForm"
+                                                  id="loginForm"
+                                            >
+                                                <label for="username">Username</label>
+                                                <span class="auth-error" id="loginError">Invalid username and/or password.</span>
+                                                <input class="auth-input" type="text" placeholder="username" id="username"
+                                                       name="username"
+                                                       autofocus="autofocus"
+                                                required="required"/>
+                                                <label for="password" >Password</label>
+                                                <input class="auth-input" type="password" id="password" name="password" required="required"/>
+                                                <input class="confirmation-button" type="submit" value="Log in"/>
+                                            </form>
+                                            <!--Should add something that slides to input the email address with a send email button-->
+                                            <a class="forgotten-pass"
+                                               onclick="document.getElementById('recoveryForm').style.visibility = 'visible';">
+                                                Forgotten password?
+                                            </a>
+
+                                            <form th:action="@{/auth/recovery}"
+                                                  method="POST"
+                                                  id="recoveryForm"
+                                                  name="recoveryForm">
+                                                <span class="auth-error" id="recoveryError">This email is invalid or is not associated to an account.</span>
+                                                <input class="auth-input" type="email" placeholder="Email" id="recoveryEmail" name="recoveryEmail">
+                                                <input class="confirmation-button" type="submit"
+                                                       value="Recover account" form="recoveryForm">
+                                                <span class="action-confirmation" id="recoveryConfirmation">An email was send.</span>
+
+                                            </form>
+                                        </div>
+                                        <div class="overlay-signup" id="overlay-signup">
+                                            <!--/*@thymesVar id="user" type="com.pixlabs.web.dto.UserDto"*/-->
+                                            <form id="signupForm"
+                                                  th:object="${user}"
+                                                  th:action="@{/auth/register}"
+                                                  th:method="POST"
+                                                  name="signupForm"
+                                            >
+                                                <span class="overlay-title">Sign up</span>
+                                                <div class="register-input">
+                                                    <label for="usernameSignUp">Username</label>
+                                                    <span class="auth-error" id="usernameSignUpError">An account already exists with this regUsername.</span>
+                                                    <input type="text" id="usernameSignUp" th:field="*{regUsername}"
+                                                           placeholder="Username" required="required"
+                                                    class="auth-input"/>
+                                                </div>
+                                                <div class="register-input">
+                                                    <label for="email">E-mail</label>
+                                                    <span class="auth-error" id="emailRegistrationError">An account already exists with this email.</span>
+                                                    <input type="email" id="email" th:field="*{email}"
+                                                           placeholder="Email" class="auth-input"
+                                                           required="required"/>
+                                                </div>
+                                                <div class="register-input">
+                                                    <label for="passwordSignUp">Password:</label>
+                                                    <span class="auth-error" id="passwordSignUpError">Password must be min 8 chars long and contain a symbol.</span>
+                                                    <input type="password" id="passwordSignUp" th:field="*{password}"
+                                                           class="auth-input"
+                                                           placeholder="Password" required="required"/>
+                                                </div>
+                                                <div class="register-input">
+                                                    <label for="confirmPassword">Confirm password:</label>
+                                                    <span class="auth-error" id="confirmPasswordError">Passwords don't match.</span>
+                                                    <input type="password" id="confirmPassword" class="auth-input"
+                                                           th:field="*{confirmPassword}" placeholder="Password"
+                                                           required="required"/>
+                                                </div>
+                                                <input class="confirmation-button" type="submit" value="Sign up"
+                                                       form="signupForm"/>
+                                                <span class="auth-error" id="regFailed">Registration failed, please verify your details.</span>
+                                                <span class="action-confirmation" id="creatingAccountSpan">Creating account, please wait...</span>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="overlay-regsuccess" id="overlay-regsuccess">
+                                        <h1>Registration was a success!</h1>
+                                        <label for="emailConfirmation">Please enter your email verification code
+                                            below.</label>
+                                        <input type="text" id="emailConfirmation" name="emailConfirmation"/>
+                                        <button class="confirmation-button" type="button"
+                                                onclick="confirmRegistration(event)">Submit
+                                        </button>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <span class="login-overlayStart" onclick="openNav()">Sign in</span>
+                        </div>
+
+                        <div class="user-navigation" sec:authorize="isAuthenticated()">
+
+                            <button class="btn btn-default dropdown-toggle"
+                                    type="button"
+                                    data-toggle="dropdown"
+                            ><!--/*@thymesVar id="user" type="com.pixlabs.data.entities.User"*/-->
+                                <span th:text="${user.getUsername()}">User Alpha</span></button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Messages</a></li>
+                                <li><a href="#">User info</a></li>
+                                <li><a href="#">Connections</a></li>
+                                <li><a href="#">Preferences</a></li>
+                                <li><a href="#">Projects</a></li>
+                                <li><a href="/logout" th:method="post">Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{js/AuthenticationScript.js}" src="../static/js/AuthenticationScript.js">
+
+
+</script>
+</html>

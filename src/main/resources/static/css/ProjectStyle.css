@@ -1,0 +1,44 @@
+#mainContainer{
+    min-width: 300px;
+    position: absolute;
+    top: 90px;
+    left: 200px;
+    width: 50%;
+    height: auto;
+}
+
+.author{
+    position: relative;
+    left: 100px;
+    font-style: italic;
+
+}
+.title{
+    position: relative;
+    left: 20px;
+    top: 20px;
+}
+
+.container{
+    background-color: #CFD4E8;
+    border-radius: 20px;
+    height: auto;
+}
+
+#projectInfoContainer{
+    position: fixed;
+    top:90px;
+    right: 200px;
+    height: auto;
+    width: 400px;
+    min-width: 400px;
+}
+
+#projectInfoContainer .infoTable, h3{
+    margin: 10px;
+    width:100%;
+}
+
+#projectInfoContainer td{
+    min-width: 120px;
+}

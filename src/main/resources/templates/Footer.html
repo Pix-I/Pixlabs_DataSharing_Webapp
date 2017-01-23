@@ -1,0 +1,22 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" type="text/css" href="../static/css/FooterStyle.css" th:href="@{/css/FooterStyle.css}"/>
+</head>
+<body>
+<div class="footer" th:fragment="Footer">
+    <div id="footerLimit"></div>
+    <img id="footerLogo" src="../static/img/footerlogo.png" th:src="@{/img/footerLogo.png}"/>
+
+    <div class="footerCategories" id="Support"> <p><u>Support</u></p></div>
+
+        <div id="footerFooter">
+        <a>Copyright</a> |
+        <a>Privacy Policy</a> |
+        <a>Terms of Use</a> |
+        <a>Contact</a>
+        </div>
+</div>
+
+</body>
+</html>
