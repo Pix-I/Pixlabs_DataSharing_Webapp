@@ -2,6 +2,8 @@ package com.pixlabs.data.entities;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by pix-i on 13/01/2017.
@@ -32,6 +34,12 @@ public class User {
     @Column(name = "enabled")
     private boolean enabled;
 
+    @Column(name = "birthDate")
+    private Date birthDate;
+
+    @Column(name = "profilePicture")
+    private byte[] profilePicture;
+
     @ManyToMany
     @JoinTable(name = "users_projects",
             joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "id"),
@@ -56,7 +64,7 @@ public class User {
 
     public User() {
         super();
-        this.secret = "2344324123413214523125ERDZ?";
+        this.secret = UUID.randomUUID().toString();
         this.enabled = false;
     }
 
@@ -73,7 +81,7 @@ public class User {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email.toLowerCase();
     }
 
     public String getPassword() {
@@ -154,4 +162,19 @@ public class User {
     }
 
 
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public byte[] getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(byte[] profilePicture) {
+        this.profilePicture = profilePicture;
+    }
 }

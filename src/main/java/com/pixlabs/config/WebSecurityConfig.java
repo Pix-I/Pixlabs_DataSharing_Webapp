@@ -11,6 +11,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import javax.inject.Inject;
 
@@ -24,10 +27,11 @@ import javax.inject.Inject;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private String[] publicStuff = {"/index","/","/css/**","/js/**","/img/**","/auth/**","/login*"};
+    private String[] publicStuff = {"/index","/","/css/**","/js/**","/img/**","/auth/**","/login*","/auth/logout"};
 
     private UserDetailsService userDetailsService;
     private UserRepository userRepository;
+    private LogoutSuccessHandler logoutSuccessHandler;
 
 
     @Override
@@ -43,16 +47,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .loginPage("/auth/login")
                     .usernameParameter("username")
                     .passwordParameter("password")
+                    .successForwardUrl("/auth/loginSuccess")
                    .permitAll()
                 .and()
-                    .logout()
-                    .logoutUrl("/logout")
-                    .logoutSuccessUrl("/")
+                .logout()
+                    .logoutUrl("/auth/logout")
+                    .logoutSuccessUrl("/auth/logoutSuccess")
+                    //.deleteCookies("")
+                    .logoutSuccessHandler(logoutSuccessHandler)
+                    .invalidateHttpSession(false)
                     .permitAll()
                 .and()
                     .exceptionHandling().accessDeniedPage("/AccessDenied");
 
     }
+
+
+
 
 
     @Override
@@ -68,11 +79,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         final AuthenticationProviderImpl authProvider = new AuthenticationProviderImpl();
         authProvider.setUserDetailsService(this.userDetailsService);
         authProvider.setUserRepository(userRepository);
-
+        authProvider.setPasswordEncoder(encoder());
         return authProvider;
 
     }
 
+
+    @Bean
+    public PasswordEncoder encoder(){
+        PasswordEncoder encoder = new BCryptPasswordEncoder(11);
+        return encoder;
+    }
 
 
     @Inject
@@ -84,5 +101,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public WebSecurityConfig setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
         return this;
+    }
+
+
+    @Inject
+    public void setLogoutSuccessHandler(LogoutSuccessHandler logoutSuccessHandler) {
+        this.logoutSuccessHandler = logoutSuccessHandler;
     }
 }

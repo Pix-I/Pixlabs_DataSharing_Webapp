@@ -1,12 +1,11 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-<div th:fragment="Header">
-    <div class="headerBackground">
 
-        <div class="header-wrapper">
+    <div th:fragment="Header" class="headerBackground">
 
-            <link rel="stylesheet" type="text/css" href="../static/css/HeaderStyle.css"
+
+            <link rel="stylesheet" type="text/css" href="../../static/css/HeaderStyle.css"
                   th:href="@{/css/HeaderStyle.css}"/>
 
 
@@ -129,16 +128,17 @@
                                 <li><a href="#">Connections</a></li>
                                 <li><a href="#">Preferences</a></li>
                                 <li><a href="#">Projects</a></li>
-                                <li><a href="/logout" th:method="post">Logout</a></li>
+                                <li><a onclick="logout(event)">Logout</a></li>
+
                             </ul>
+                            <form style="visibility: hidden" th:action="@{/auth/logout}" name="logoutForm" id="logoutForm" th:method="POST">
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<script th:src="@{js/AuthenticationScript.js}" src="../static/js/AuthenticationScript.js">
+<script th:src="@{js/AuthenticationScript.js}" src="../../static/js/AuthenticationScript.js">
 
 
 </script>

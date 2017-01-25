@@ -8,8 +8,8 @@ import com.pixlabs.web.dto.UserDto;
 import com.pixlabs.web.util.GenericResponse;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.env.Environment;
-import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,15 +33,17 @@ public class SecurityController {
 
     private UserService userService;
     private ApplicationEventPublisher eventPublisher;
-    private MailSender mailSender;
+    private JavaMailSender mailSender;
     private Environment env;
 
 
-    @RequestMapping(value = "/login")
+    @RequestMapping(value = "/loginSuccess")
     @ResponseBody
     public GenericResponse login(Principal principal, Model model){
         System.out.println("Logging in");
-      if(principal!=null){
+
+
+        if(principal!=null){
             System.out.println(principal);
             return new GenericResponse("success");
 
@@ -52,7 +54,7 @@ public class SecurityController {
     @RequestMapping("/tokenConfirm")
     @ResponseBody
     public GenericResponse confirmToken(@RequestParam("token")String token){
-        if(userService.validateToken(token)){
+        if(userService.validateConfirmationToken(token)){
             return new GenericResponse("valid");
         }
 
@@ -88,8 +90,10 @@ public class SecurityController {
             return new GenericResponse("UserAlreadyExist",e.getMessage());
         }
         //Need to add email verification
-        return new GenericResponse("Success");
+        return new GenericResponse("success");
     }
+
+
 
 
     @Inject
@@ -99,7 +103,7 @@ public class SecurityController {
 
 
     @Inject
-    public void setMailSender(MailSender mailSender){
+    public void setMailSender(JavaMailSender mailSender){
         this.mailSender = mailSender;
     }
 
@@ -129,7 +133,6 @@ public class SecurityController {
         email.setFrom(env.getProperty("mail.support.email"));
         return email;
     }
-
 
     @Inject
     public void setEnv(Environment env) {

@@ -16,8 +16,8 @@
     <title>Pix-Labs</title>
 </head>
 <body>
-    <img class="bg" src="../static/img/backgroundMain.jpg" th:src="@{img/backgroundMain.jpg}"/>
-    <div class="header" th:include="Header">
+    <!--<img class="bg" src="../static/img/backgroundMain.jpg" th:src="@{img/backgroundMain.jpg}"/>-->
+    <div class="header" id="header" th:include="header/Header">
         <link rel="stylesheet" type="text/css" href="../static/css/HeaderStyle.css" th:href="@{/css/HeaderStyle.css}"/>
 
 
@@ -75,7 +75,7 @@
             }
         </script>
     </div>
-    <div class="footerContainer" th:include="Footer">
+    <div class="footerContainer" th:include="footer/Footer">
 
         <link rel="stylesheet" type="text/css" href="../static/css/FooterStyle.css" th:href="@{/css/FooterStyle.css}"/>
         <div class="footer">

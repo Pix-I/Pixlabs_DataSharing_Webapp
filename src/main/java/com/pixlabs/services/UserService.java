@@ -31,7 +31,7 @@ public interface UserService {
     @Inject
     void setTokenRepository(VerificationTokenRepository tokenRepository);
 
-    boolean validateToken(String token);
+    boolean validateConfirmationToken(String token);
 
     User findUserByEmail(String email);
 

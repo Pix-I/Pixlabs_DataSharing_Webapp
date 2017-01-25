@@ -46,6 +46,7 @@ $(document).ready(function () {
 function recovery(event) {
     event.preventDefault();
     var formData = $('#recoveryForm').serialize();
+    console.log("Recovery form serialised.");
     $.post("/auth/recovery",formData,function (data) {
         console.log("Recovering via email");
         if(data.message == "success"){
@@ -76,6 +77,8 @@ function login(event) {
         var formData = $('#loginForm').serialize();
         $.post("/auth/login", formData, function (data) {
             if (data.message == "success") {
+                //Update view?
+                $("#header").load("/header");
                 console.log("Logged in.")
             } else if (data.error == "invalid") {
                 document.getElementById("loginError").style.visibility = 'visible';
@@ -108,12 +111,13 @@ function validateSU(event) {
         document.signupForm.password.focus();
         return;
     }
+    console.log("Password should be ok");
     var formData = $("#signupForm").serialize();
-
+    console.log("Form serialised");
     document.getElementById("creatingAccountSpan").style.visibility = "visible";
     $.post("/auth/register",formData,function (data) {
-
-        if(data.message == "Success"){
+        document.getElementById("creatingAccountSpan").style.visibility = "hidden";
+        if(data.message == "success"){
            console.log("Success");
             document.getElementById("overlay-auth").style.visibility = "hidden";
             document.getElementById("overlay-regsuccess").style.visibility = "visible";
@@ -143,6 +147,14 @@ function confirmRegistration(event) {
         console.log(data);
     });
 }
+
+function logout(event) {
+    event.preventDefault();
+    $("#logoutForm").submit();
+
+
+}
+
 
 
 function openNav() {

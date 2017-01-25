@@ -176,16 +176,17 @@
 }
 
 
+
 .overlay-regsuccess{
     visibility: hidden;
     color: white;
-    position: relative;
+    position: absolute;
     top:00px;
     right: 600px;
+    display: inline-grid;
 }
 
 .overlay-regsuccess label,input{
-    right: 0px;
     width: 800px;
 }
 

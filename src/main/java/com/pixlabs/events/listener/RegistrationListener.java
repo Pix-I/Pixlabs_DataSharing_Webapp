@@ -5,9 +5,8 @@ import com.pixlabs.events.NewRegistrationCompleteEvent;
 import com.pixlabs.services.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
-import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -22,7 +21,7 @@ import java.util.UUID;
 public class RegistrationListener implements ApplicationListener<NewRegistrationCompleteEvent>{
 
 
-    private JavaMailSender mailSender;
+    private JavaMailSenderImpl mailSender;
 
     private UserService userService;
 
@@ -45,7 +44,7 @@ public class RegistrationListener implements ApplicationListener<NewRegistration
 
 
     @Inject
-    public void setMailSender(JavaMailSender mailSender) {
+    public void setMailSender(JavaMailSenderImpl mailSender) {
         this.mailSender = mailSender;
     }
 

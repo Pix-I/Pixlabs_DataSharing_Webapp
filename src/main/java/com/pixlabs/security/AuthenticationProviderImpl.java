@@ -26,7 +26,7 @@ public class AuthenticationProviderImpl extends DaoAuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException{
         System.out.println("User:" + authentication.getName());
         final User
-            user = userRepository.findByEmail(authentication.getName());
+            user = userRepository.findByUsername(authentication.getName());
         if(user == null){
             System.out.println("Bad username and or password.");
             throw new BadCredentialsException("Invalid username or password");

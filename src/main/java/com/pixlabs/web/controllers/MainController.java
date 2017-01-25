@@ -24,7 +24,7 @@ public class MainController {
         if(principal==null) {
             UserDto user = new UserDto();
             model.addAttribute("user", user);
-            System.out.println("Null principal");
+            System.out.println("Null principal ");
         } else {
             System.out.println("Index:" + principal.toString());
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -35,6 +35,7 @@ public class MainController {
 
     @RequestMapping("/Access_Denied")
     public String accessDeniedPage(Model model){
+        System.out.println("Access was denied");
         model.addAttribute("user", getPrincipal());
         return "AccessDenied";
     }
@@ -51,5 +52,17 @@ public class MainController {
         return userName;
     }
 
+    @RequestMapping("/header")
+    public String header(Principal principal, Model model){
+        if(principal==null) {
+            UserDto user = new UserDto();
+            model.addAttribute("user", user);
+        } else {
+            System.out.println("Index:" + principal.toString());
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            model.addAttribute("user",user);
+        }
+        return "header/Header";
+    }
 
 }

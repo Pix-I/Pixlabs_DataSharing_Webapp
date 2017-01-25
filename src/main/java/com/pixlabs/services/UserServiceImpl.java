@@ -9,6 +9,7 @@ import com.pixlabs.data.entities.User;
 import com.pixlabs.data.entities.VerificationToken;
 import com.pixlabs.exceptions.UserAlreadyExistException;
 import com.pixlabs.web.dto.UserDto;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -31,19 +32,27 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private VerificationTokenRepository tokenRepository;
+    private PasswordEncoder encoder;
 
 
-
+    /**
+     * Creates and saves a new token to the verificationTokenRepository
+     * @param user The user object to be associated with the token
+     * @param token A random UUID to string.
+     */
     @Override
     public void createVerificationToken(final User user, final String token){
         final VerificationToken verificationToken = new VerificationToken(user,token);
-        System.out.println("Saving token!");
         tokenRepository.save(verificationToken);
     }
 
 
-
-
+    /**
+     * Registers a new account into the database based on a userDto object containing the most important details.
+     * @param userDto contains an username, email address and password.
+     * @return A newly created user object.
+     * @throws UserAlreadyExistException If there's already an user with the email/username in the DB.
+     */
     @Override
     public User registerAccount(UserDto userDto) throws UserAlreadyExistException {
         if(emailAlreadyExist(userDto.getEmail())){
@@ -56,16 +65,23 @@ public class UserServiceImpl implements UserService {
         }
         final User user = new User();
         user.setUsername(userDto.getRegUsername());
-        user.setPassword(userDto.getPassword());
+        user.setPassword(encoder.encode(userDto.getPassword()));
         user.setEmail(userDto.getEmail());
         user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
+        //Add roles
+
 
         //Add email verification
-        user.setEnabled(true);
+//        user.setEnabled(true);
 
         return userRepository.save(user);
     }
 
+    /**
+     * Checks if a given email already exists in the userRepository
+     * @param email A string representing an email
+     * @return True only if an email corresponding the given string is found in the DB.
+     */
     private boolean emailAlreadyExist(String email) {
         return (userRepository.findByEmail(email) !=null );
 
@@ -93,8 +109,14 @@ public class UserServiceImpl implements UserService {
         this.tokenRepository = tokenRepository;
     }
 
+    /**
+     * Validates an email confirmation token
+     * @param token A random UUID that should be associated with an user
+     * @return returns false if the token isn't associated with an user
+     */
+
     @Override
-    public boolean validateToken(String token) {
+    public boolean validateConfirmationToken(String token) {
         final VerificationToken verificationToken = tokenRepository.findByToken(token);
         if(verificationToken==null){
             System.out.println("Invalid token.");
@@ -120,6 +142,11 @@ public class UserServiceImpl implements UserService {
     private PasswordResetTokenRepository resetTokenRepository;
 
 
+    /**
+     * Creates a password reset token
+      * @param user The user object to be associated with the reset token
+     * @param token A random string
+     */
     @Override
     public void createResetToken(User user, String token) {
         final PasswordResetToken resetToken = new PasswordResetToken(token,user);
@@ -133,5 +160,10 @@ public class UserServiceImpl implements UserService {
     @Inject
     public void setResetTokenRepository(PasswordResetTokenRepository resetTokenRepository) {
         this.resetTokenRepository = resetTokenRepository;
+    }
+
+    @Inject
+    public void setEncoder(PasswordEncoder encoder) {
+        this.encoder = encoder;
     }
 }

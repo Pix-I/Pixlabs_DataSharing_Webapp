@@ -1,7 +1,0 @@
-//TODO recovery
- - Send mail
- - Fail, not found or something went wrong
-//TODO Register
- - Errors, validation errors, username/email already taken
- - Send mail
- - Validation screen
