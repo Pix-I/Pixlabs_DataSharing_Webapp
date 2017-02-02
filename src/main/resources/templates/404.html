@@ -16,16 +16,18 @@
     <title>Pix-Labs</title>
 </head>
 <body>
-    <!--<img class="bg" src="../static/img/backgroundMain.jpg" th:src="@{img/backgroundMain.jpg}"/>-->
-    <div class="header" id="header" th:include="header/Header">
-    </div>
-    <div class="body-container" id="mainBody">
-        <div class="user-navigation" id="user-navigation" th:include="header/Navigation"></div>
-        <!--Add some index content-->
-    </div>
+<!--<img class="bg" src="../static/img/backgroundMain.jpg" th:src="@{img/backgroundMain.jpg}"/>-->
+<div class="header" id="header" th:include="header/Header">
+</div>
+<div class="user-navigation" id="user-navigation" th:include="header/Navigation"></div>
+<div class="body-container" id="mainBody">
+    <!--Add some index content-->
+    <h1>The page you're looking for doesn't seem to exist.</h1>
+
+</div>
 
 
-    <div class="footerContainer" th:include="footer/Footer">
-    </div>
+<div class="footerContainer" th:include="footer/Footer">
+</div>
 </body>
 </html>

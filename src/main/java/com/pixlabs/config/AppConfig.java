@@ -26,8 +26,6 @@ public class AppConfig {
 
 
 
-    //
-
     /**
      * A simple implementation of JavaMailSender, MailSender bean worked perfectly but the "warning" from Intellij annoyed me.
      * @return An implementation of JavaMailSender

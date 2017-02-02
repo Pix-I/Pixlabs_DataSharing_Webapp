@@ -1,17 +1,20 @@
 .headerBackground{
     height: 40px;
-    position: fixed;
-    top:0;
-    width: 100%;
-    left: 0;
     background-color: #1d222f;
 }
 
-.header-login{
-    top:10px;
+.header-wrapper{
+    width: 60%;
+    min-width: 1000px;
+    left: 20%;
+    position: relative;
+}
+.header-navigation{
     position: absolute;
-    right: 31px;
-
+    right: 0;
+    top:5px;
+    font-size: 20px;
+    color: white;
 }
 
 
@@ -59,30 +62,9 @@
 }
 
 
-.header-login{
-
-}
-
-.login-overlayStart{
-    font-size:20px;
-    cursor:pointer;
-    width: 100px;
-    border-radius: 9px;
-    color: white;
-}
-
-
-
-.login-overlayStart :hover{
-    width: 20px;
-    height: auto;
-    background-color: #38415c;
-
-}
-
-
 
 .overlay {
+    font-size:15px;
     height: 100%;
     width: 0;
     position: fixed;
@@ -113,7 +95,7 @@
     width: 200px;
     left: 500px;
 }
-.overlay-login form input,label{
+.overlay-login form input label{
     display: block;
     position: relative;
     width: 200px;
@@ -132,7 +114,8 @@
     font-size: 50px;
 }
 
-.overlay-signup form input{
+.overlay form input{
+    text-align: center;
     display: block;
     position: relative;
     width: 200px;
@@ -140,10 +123,9 @@
 
 
 
-.overlay-signup form input:invalid{
+.overlay form input:invalid{
     border: 1px solid red;
 }
-
 
 
 
@@ -186,7 +168,7 @@
     display: inline-grid;
 }
 
-.overlay-regsuccess label,input{
+.overlay-regsuccess label,.overlay-regsuccess input{
     width: 800px;
 }
 
@@ -207,28 +189,6 @@
     visibility: hidden;
 }
 
-.confirmation-button{
-    background-color: #1d222f;
-    border: none;
-    color: white;
-    margin-top:10px;
-    padding: 10px;
-
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 5px;
-}
-
 input{
     color: #000;
-}
-#overlay-auth{
-    width: 100%;
-    display: inline-block;
-}
-
-.auth-input{
-    height: 30px;
 }

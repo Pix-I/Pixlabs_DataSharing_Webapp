@@ -23,7 +23,11 @@ function validate() {
 }
 
 $(document).ready(function () {
-   //Sign up
+    $('#passwordRecoveryForm').submit(function (event) {
+        recoverPassword();
+    });
+
+    //Sign up
     $('#signupForm').submit(function (event) {
        console.log("Form submitted.");
        validateSU(event);
@@ -43,10 +47,10 @@ $(document).ready(function () {
 });
 
 
+
 function recovery(event) {
     event.preventDefault();
     var formData = $('#recoveryForm').serialize();
-    console.log("Recovery form serialised.");
     $.post("/auth/recovery",formData,function (data) {
         console.log("Recovering via email");
         if(data.message == "success"){
@@ -78,9 +82,8 @@ function login(event) {
         $.post("/auth/login", formData, function (data) {
             if (data.message == "success") {
                 //Update view?
-                $("#header").load("/header");
-                console.log("Logged in.")
-            } else if (data.error == "invalid") {
+                window.location.href = "http://localhost:8080/";
+                 } else if (data.error == "invalid") {
                 document.getElementById("loginError").style.visibility = 'visible';
             } else {
 
@@ -89,6 +92,23 @@ function login(event) {
     }
 }
 
+
+function updateInfo(event) {
+    event.preventDefault();
+    console.log("Updating info");
+    var formData = $('#updateInfoForm').serialize();
+    $.post("/updateInfo",formData,function (data) {
+        if(data.message == "success"){
+            window.location.href = "http://localhost:8080/preferences";
+
+        } else {
+            console.log("error!");
+        }
+    })
+        .fail(function () {
+            console.log("fail!");
+        });
+}
 
 
 
@@ -148,12 +168,7 @@ function confirmRegistration(event) {
     });
 }
 
-function logout(event) {
-    event.preventDefault();
-    $("#logoutForm").submit();
 
-
-}
 
 
 

@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,12 +29,16 @@ import javax.inject.Inject;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private String[] publicStuff = {"/index","/","/css/**","/js/**","/img/**","/auth/**","/login*","/auth/logout"};
+    private String[] publicStuff = {"/index","/","/static/css/**","/css/**","/js/**","/img/**","/auth/**","/user/**","/login*","/auth/logout"};
 
     private UserDetailsService userDetailsService;
     private UserRepository userRepository;
     private LogoutSuccessHandler logoutSuccessHandler;
 
+    @Bean
+    public SessionRegistry sessionRegistry(){
+        return new SessionRegistryImpl();
+    }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception{
@@ -40,7 +46,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers(publicStuff)
                     .permitAll()
-                    .antMatchers("/user/**").access("hasRole('USER')")
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()
@@ -54,11 +59,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .logoutUrl("/auth/logout")
                     .logoutSuccessUrl("/auth/logoutSuccess")
                     //.deleteCookies("")
-                    .logoutSuccessHandler(logoutSuccessHandler)
+//                    .logoutSuccessHandler(logoutSuccessHandler)
                     .invalidateHttpSession(false)
                     .permitAll()
                 .and()
-                    .exceptionHandling().accessDeniedPage("/AccessDenied");
+                    .exceptionHandling().accessDeniedPage("/auth/loginPage")
+                .and()
+                    .sessionManagement()
+                    .maximumSessions(1).sessionRegistry(sessionRegistry());
 
     }
 
@@ -103,9 +111,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return this;
     }
 
-
-    @Inject
-    public void setLogoutSuccessHandler(LogoutSuccessHandler logoutSuccessHandler) {
-        this.logoutSuccessHandler = logoutSuccessHandler;
-    }
 }

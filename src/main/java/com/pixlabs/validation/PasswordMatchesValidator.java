@@ -1,6 +1,6 @@
 package com.pixlabs.validation;
 
-import com.pixlabs.web.dto.UserDto;
+import com.pixlabs.web.dto.IPassword;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -17,8 +17,12 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
    }
 
    public boolean isValid(Object obj, ConstraintValidatorContext context) {
-      UserDto user = (UserDto) obj;
+      if(obj instanceof IPassword){
+         IPassword dto = (IPassword) obj;
+         return dto.getPassword().equals(dto.getConfirmPassword());
+      }
+
       //add matching pass?
-      return user.getPassword().equals(user.getConfirmPassword());
+      return false;
    }
 }

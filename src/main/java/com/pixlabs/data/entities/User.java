@@ -38,6 +38,7 @@ public class User {
     private Date birthDate;
 
     @Column(name = "profilePicture")
+    @Lob
     private byte[] profilePicture;
 
     @ManyToMany

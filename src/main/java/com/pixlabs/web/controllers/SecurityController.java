@@ -3,16 +3,20 @@ package com.pixlabs.web.controllers;
 import com.pixlabs.data.entities.User;
 import com.pixlabs.events.NewRegistrationCompleteEvent;
 import com.pixlabs.exceptions.UserAlreadyExistException;
+import com.pixlabs.services.SecurityService;
 import com.pixlabs.services.UserService;
+import com.pixlabs.web.dto.PasswordResetDto;
 import com.pixlabs.web.dto.UserDto;
 import com.pixlabs.web.util.GenericResponse;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -32,9 +36,37 @@ import java.util.UUID;
 public class SecurityController {
 
     private UserService userService;
+    private SecurityService securityService;
     private ApplicationEventPublisher eventPublisher;
     private JavaMailSender mailSender;
     private Environment env;
+
+    @RequestMapping(value = "/loginPage",method = RequestMethod.GET)
+    public String loginPage(Model model){
+        return "Login";
+    }
+
+    @RequestMapping(value = "login",method = RequestMethod.GET)
+    @ResponseBody
+    public GenericResponse login(Model model,String error, String logout){
+        if(error!=null){
+            return new GenericResponse("error","invalid");
+        }
+        return new GenericResponse("success");
+    }
+
+
+    @RequestMapping(value = "/passwordReset",method = RequestMethod.GET)
+    public String passwordRecovery(@RequestParam String recoveryToken,@RequestParam long id,Model model){
+        System.out.println("Getting page");
+        String result = securityService.validatePasswordResetToken(id,recoveryToken);
+        if(result!=null) {
+            model.addAttribute("passwordResetDto",new PasswordResetDto());
+            model.addAttribute("passwordResetUsername", result);
+            return "PasswordRecovery";
+        }
+        return "404";
+    }
 
 
     @RequestMapping(value = "/loginSuccess")
@@ -52,19 +84,17 @@ public class SecurityController {
     }
 
     @RequestMapping("/tokenConfirm")
-    @ResponseBody
-    public GenericResponse confirmToken(@RequestParam("token")String token){
+    public String confirmToken(@RequestParam("token")String token){
         if(userService.validateConfirmationToken(token)){
-            return new GenericResponse("valid");
+            return "RegistrationComplete";
         }
 
-        return new GenericResponse("token","invalid");
+        return "404";
     }
 
     @RequestMapping("/recovery")
     @ResponseBody
     public GenericResponse recoveryEmail(@RequestParam("recoveryEmail")String email,HttpServletRequest request){
-        System.out.println("Recovering account, send new email.");
         final User user = userService.findUserByEmail(email);
         if(user==null){
             return new GenericResponse("UserNotFound","notFound");
@@ -77,7 +107,15 @@ public class SecurityController {
     }
 
 
-
+    @RequestMapping(value = "/savePasswordReset",method = RequestMethod.POST)
+    @ResponseBody
+    public GenericResponse passwordRecoveryValidation(@Valid PasswordResetDto resetDto, Model model){
+        System.out.println("Changing pass:");
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        userService.updateUserPassword((User) principal,resetDto.getPassword());
+        model.addAttribute("activeUser",(User) principal);
+        return new GenericResponse("success");
+    }
 
     @RequestMapping("/register")
     @ResponseBody
@@ -120,7 +158,7 @@ public class SecurityController {
         return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
     }
     private SimpleMailMessage constructResetTokenEmail(final String contextPath, final String token, final User user) {
-        final String url = contextPath + "/user/changePassword?id=" + user.getId() + "&token=" + token;
+        final String url = contextPath + "/auth/passwordReset?id=" + user.getId()+ "&recoveryToken=" + token;
         final String message = "message.resetPassword";
         return constructEmail("Reset Password", message + " \r\n" + url, user);
     }
@@ -137,5 +175,10 @@ public class SecurityController {
     @Inject
     public void setEnv(Environment env) {
         this.env = env;
+    }
+
+    @Inject
+    public void setSecurityService(SecurityService securityService) {
+        this.securityService = securityService;
     }
 }

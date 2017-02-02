@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+
+      lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="../../static/css/MainStyle.css" th:href="@{/css/MainStyle.css}"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="../../static/js/pixlabs.js" th:src="@{js/pixlabs.js}"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <meta charset="UTF-8"/>
+    <title>Preferences</title>
+    <script>
+        $( function() {
+            $( "#birth-date-input" ).datepicker();
+        } );
+    </script>
+</head>
+<body>
+<!--<img class="bg" src="../static/img/backgroundMain.jpg" th:src="@{img/backgroundMain.jpg}"/>-->
+<div class="header" id="header" th:include="header/Header">
+</div>
+<div class="body-content" id="mainBody">
+    <div class="user-navigation" id="user-navigation" th:include="header/Navigation"></div>
+    <!--Add some index content-->
+    <div class="header-title" id="pageTitle">User preferences</div>
+    <ul class="profile-navigation-link-container ">
+        <li class="preferences-tab">
+            <a>Profile</a>
+        </li>
+    </ul>
+    <img src="../../static/img/defaultLogo.png" class="pref-profile-picture" th:src="@{/img/profilePicture}" width="80">
+    <!--/*@thymesVar id="activeUser" type="com.pixlabs.web.dto.UserPrefDto"*/-->
+    <form name="updateInfoForm" id="updateInfoForm" th:action="@{/updateInfo}" th:object="${userPrefDto}" th:method="POST">
+        <label for="birth-date-input">Birth date: </label>
+        <input th:field="*{birthDate}" name="birth-date" id="birth-date-input"
+                th:placeholder="*{birthDate}"/>
+        <br/>
+        <label for="email-input">Email: </label>
+        <input th:field="*{email}" type="email" name="email" id="email-input" th:placeholder="*{email}"/>
+        <br/>
+        <label for="password">Password: </label>
+        <input type="password" name="password" id="password" placeholder="password">
+        <br/>
+        <label for="password-confirm">Confirm password: </label>
+        <input type="password" name="password-confirm" id="password-confirm" placeholder="confirm password">
+        <input type="submit" class="confirmation-button" value="Update" th:action="@{/savePrefs}">
+    </form>
+
+
+</div>
+
+
+<div class="footerContainer" th:include="footer/Footer">
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById("sub-navigation-users").style.backgroundColor = "#2e328b";
+        console.log("Setting nav color");
+    });
+    $(document).ready(function () {
+        $('#updateInfoForm').submit(function (event) {
+            updateInfo(event);
+        });
+    });
+
+</script>
+
+</body>
+</html>

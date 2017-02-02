@@ -12,8 +12,7 @@
             <div class="headerBackground">
 
                 <div class="header-wrapper">
-                    <div class="user-navigation">
-                        <div class="header-login" sec:authorize="isAnonymous()">
+                        <div class="header-navigation" sec:authorize="isAnonymous()">
 
                             <div id="myNav" class="overlay">
                                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -33,7 +32,7 @@
                                                        autofocus="autofocus"
                                                 required="required"/>
                                                 <label for="password" >Password</label>
-                                                <input class="auth-input" type="password" id="password" name="password" required="required"/>
+                                                <input class="auth-input" type="password" id="password" name="password" placeholder="password" required="required"/>
                                                 <input class="confirmation-button" type="submit" value="Log in"/>
                                             </form>
                                             <!--Should add something that slides to input the email address with a send email button-->
@@ -55,9 +54,9 @@
                                             </form>
                                         </div>
                                         <div class="overlay-signup" id="overlay-signup">
-                                            <!--/*@thymesVar id="user" type="com.pixlabs.web.dto.UserDto"*/-->
+                                            <!--/*@thymesVar id="newUser" type="com.pixlabs.web.dto.UserDto"*/-->
                                             <form id="signupForm"
-                                                  th:object="${user}"
+                                                  th:object="${newUser}"
                                                   th:action="@{/auth/register}"
                                                   th:method="POST"
                                                   name="signupForm"
@@ -115,18 +114,21 @@
                             <span class="login-overlayStart" onclick="openNav()">Sign in</span>
                         </div>
 
-                        <div class="user-navigation" sec:authorize="isAuthenticated()">
+                        <div class="header-navigation" sec:authorize="isAuthenticated()">
 
+
+                            <!--/*@thymesVar id="activeUser" type="com.pixlabs.data.entities.User"*/-->
+                            <img th:src="@{/img/profilePicture}" width="30">
                             <button class="btn btn-default dropdown-toggle"
                                     type="button"
                                     data-toggle="dropdown"
-                            ><!--/*@thymesVar id="user" type="com.pixlabs.data.entities.User"*/-->
-                                <span th:text="${user.getUsername()}">User Alpha</span></button>
+                            >
+                                <span th:text="${activeUser.getUsername()}">User Alpha</span></button>
                             <ul class="dropdown-menu">
                                 <li><a href="#">Messages</a></li>
                                 <li><a href="#">User info</a></li>
                                 <li><a href="#">Connections</a></li>
-                                <li><a href="#">Preferences</a></li>
+                                <li><a th:href="@{'/preferences'}">Preferences</a></li>
                                 <li><a href="#">Projects</a></li>
                                 <li><a onclick="logout(event)">Logout</a></li>
 
@@ -137,9 +139,10 @@
                     </div>
                 </div>
             </div>
-        </div>
-<script th:src="@{js/AuthenticationScript.js}" src="../../static/js/AuthenticationScript.js">
+<script th:src="@{/js/AuthenticationScript.js}" src="../../static/js/AuthenticationScript.js">
 
 
 </script>
+
+
 </html>

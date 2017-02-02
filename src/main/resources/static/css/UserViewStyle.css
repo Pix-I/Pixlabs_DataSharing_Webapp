@@ -1,0 +1,36 @@
+
+#profilePicture{
+    position: relative;
+    top:100px;
+    left:10px;
+    width: 125px;
+}
+#profile-navigation{
+    top:100px;
+    left: 0;
+    position: absolute;
+
+}
+
+
+
+.profile-navigation-link-container{
+    color: white;
+    list-style: none;
+    padding: 1px 15px;
+    background-color: #aebfff;
+    margin: 0px 0px 0px 10px;
+    display: inline-block;
+}
+.profile-navigation-link-container:hover{
+    background-color: blue;
+}
+
+
+.profile-navigation-link-container a{
+    color: white;
+}
+.profile-navigation-link-container a:hover{
+    color: white;
+    text-decoration:none;
+}

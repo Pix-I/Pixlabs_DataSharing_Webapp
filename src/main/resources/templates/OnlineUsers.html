@@ -16,16 +16,22 @@
     <title>Pix-Labs</title>
 </head>
 <body>
-    <!--<img class="bg" src="../static/img/backgroundMain.jpg" th:src="@{img/backgroundMain.jpg}"/>-->
-    <div class="header" id="header" th:include="header/Header">
-    </div>
-    <div class="body-container" id="mainBody">
-        <div class="user-navigation" id="user-navigation" th:include="header/Navigation"></div>
-        <!--Add some index content-->
+<!--<img class="bg" src="../static/img/backgroundMain.jpg" th:src="@{img/backgroundMain.jpg}"/>-->
+<div class="header" id="header" th:include="header/Header">
+</div>
+<div class="body-container" id="mainBody">
+    <div class="user-navigation" id="user-navigation" th:include="header/Navigation"></div>
+    <!--Add some index content-->
+    <h2>Currently logged in users</h2>
+    <div th:each="user : ${onlineUsers}">
+        <p th:text="${user}">user</p>
     </div>
 
 
-    <div class="footerContainer" th:include="footer/Footer">
-    </div>
+</div>
+
+
+<div class="footerContainer" th:include="footer/Footer">
+</div>
 </body>
 </html>

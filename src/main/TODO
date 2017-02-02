@@ -1,0 +1,27 @@
+//Commit 1
+\\DONE- Password encoder.
+\\DONE- Login view update
+\\DONE- Logout needs to work properly. *
+\\DONE- Add some Javadoc for UserServiceImpl.
+\\DONE- Confirmation view needs a bit of fixing.
+\\DONE- Clean the header up a bit
+
+*: Logout was kinda annoying because of the _csfr token and the fact that I wanted to add it to the dropdown list.
+Ad per the Spring documentation, I made a hidden form that automatically generates the _csfr token and submitted it trough
+JQuery.
+
+//Commit 2 Done
+- JavaMailSender implementation
+- Basic user view, with: Birth date, mail change, password change.
+- Add a registration success view for when you confirm the account via the token.
+- Password recovery
+- Identicon for new users
+- There's the start of an active user page
+
+
+
+//TODO
+- Roles needs to be attributed when creating an account. (postponed)
+
+
+

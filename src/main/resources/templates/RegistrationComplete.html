@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <link rel="stylesheet" type="text/css" href="../static/css/MainStyle.css" th:href="@{/css/MainStyle.css}" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="../static/js/pixlabs.js" th:src="@{/js/pixlabs.js}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <meta charset="UTF-8"/>
+    <title>Pix-Labs</title>
+</head>
+<body>
+<div>
+    <div class="headerBackground">
+        <link rel="stylesheet" type="text/css" href="../static/css/HeaderStyle.css"
+              th:href="@{/css/HeaderStyle.css}"/>
+        <div class="headerBackground">
+            <div class="header-wrapper">
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="body-content">
+        <div class="registration-login-title">
+            <h2>Your registration was successfull!</h2>
+            <h2> You can login now.</h2>
+        </div>
+        <form th:action="@{/auth/login}"
+              method="POST"
+              class="registration-login-form"
+              id="loginForm"
+              name="loginForm"
+        >
+            <label for="username">Username</label>
+            <span class="auth-error" id="loginError">Invalid username and/or password.</span>
+            <input class="auth-input" type="text" placeholder="username" id="username"
+                   name="username"
+                   autofocus="autofocus"
+                   required="required"/>
+            <label for="password" >Password</label>
+            <input class="auth-input" type="password" id="password" name="password" required="required" placeholder="password"/>
+            <input class="confirmation-button" type="submit" value="Log in"/>
+        </form>
+
+    </div>
+<script th:src="@{/js/AuthenticationScript.js}" src="/../static/js/AuthenticationScript.js">
+
+
+</script>
+
+
+
+<div class="footerContainer" th:include="footer/Footer">
+</div>
+</body>
+</html>

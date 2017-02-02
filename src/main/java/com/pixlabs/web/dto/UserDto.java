@@ -2,6 +2,7 @@ package com.pixlabs.web.dto;
 
 import com.pixlabs.validation.PasswordMatches;
 import com.pixlabs.validation.ValidEmail;
+import com.pixlabs.validation.ValidPassword;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -14,7 +15,7 @@ import javax.validation.constraints.Size;
 
 
 @PasswordMatches
-public class UserDto {
+public class UserDto implements IPassword{
 
     @NotNull
     @Size(min = 3)
@@ -27,6 +28,7 @@ public class UserDto {
 
     @NotNull
     @Size(min = 1)
+    @ValidPassword
     private String password = "password123";
 
     @NotNull
