@@ -1,9 +1,7 @@
 package com.pixlabs.data.entities;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by pix-i on 13/01/2017.
@@ -11,7 +9,7 @@ import java.util.UUID;
  */
 
 @Entity
-@Table(name = "user_account")
+@Table(name = "user")
 public class User {
 
     @Id
@@ -41,11 +39,14 @@ public class User {
     @Lob
     private byte[] profilePicture;
 
-    @ManyToMany
-    @JoinTable(name = "users_projects",
-            joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "project_id",referencedColumnName = "id"))
-    private Collection<Project> projects;
+    @OneToMany
+    @JoinTable
+            (
+                    name="user_projects",
+                    joinColumns={ @JoinColumn(name="user_id", referencedColumnName="id") },
+                    inverseJoinColumns={ @JoinColumn(name="project_id", referencedColumnName="id", unique=true) }
+            )
+    private List<Project> projects;
 
     public Collection<Role> getRoles() {
         return roles;
@@ -62,6 +63,15 @@ public class User {
     private Collection<Role> roles;
 
 
+    public void addProject(Project project){
+        if(projects==null){
+            projects = new ArrayList<>();
+        }
+        this.projects.add(project);
+        if(project.getOwner()!=this){
+            project.setOwner(this);
+        }
+    }
 
     public User() {
         super();
@@ -157,9 +167,8 @@ public class User {
         return projects;
     }
 
-    public User setProjects(Collection<Project> projects) {
+    public void setProjects(List<Project> projects) {
         this.projects = projects;
-        return this;
     }
 
 

@@ -1,6 +1,5 @@
 package com.pixlabs.services;
 
-import com.pixlabs.data.entities.Project;
 import com.pixlabs.data.entities.User;
 
 /**
@@ -9,8 +8,5 @@ import com.pixlabs.data.entities.User;
  */
 public interface ProjectService {
 
-    Project createProject(String title, String description, boolean restricted, User user);
-
-
-
+    void createProject(String title, String description, String tags, User user);
 }

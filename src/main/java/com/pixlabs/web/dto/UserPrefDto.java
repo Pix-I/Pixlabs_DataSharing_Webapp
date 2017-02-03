@@ -2,6 +2,9 @@ package com.pixlabs.web.dto;
 
 import com.pixlabs.validation.PasswordMatches;
 import com.pixlabs.validation.ValidEmail;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.Past;
 
 /**
  * Created by pix-i on 02/02/2017.
@@ -11,6 +14,8 @@ import com.pixlabs.validation.ValidEmail;
 public class UserPrefDto implements IPassword {
 
 
+    @Past
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private String birthDate;
     @ValidEmail
     private String email;

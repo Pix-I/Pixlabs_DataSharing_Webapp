@@ -7,11 +7,11 @@
     <title>Title</title>
 </head>
 <body>
-<div th:fragment="Header-Navigation">
+<div th:fragment="Navigation">
     <link rel="stylesheet" type="text/css" href="../../static/css/SubHeaderStyle.css"
           th:href="@{/css/SubHeaderStyle.css}"/>
 
-    <div class="navigation-container">
+    <div class="navigation-container" sec:authorize="isAuthenticated()">
 
         <div class="user-navigation">
             <ul class="navigation-link-container" id="sub-navigation-projects">
@@ -26,7 +26,7 @@
             </ul>
             <ul class="navigation-link-container" id="sub-navigation-new-project">
                 <li>
-                    <a>Create project</a>
+                    <a th:href="@{/createNewProject}">Create project</a>
                 </li>
             </ul>
 

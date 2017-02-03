@@ -55,7 +55,6 @@ public class UserController {
     }
 
 
-
     @RequestMapping("/user/{userId}/")
     public String userView(@PathVariable String userId, Model model){
         final User userInfo = userService.findUserByUsername(userId);

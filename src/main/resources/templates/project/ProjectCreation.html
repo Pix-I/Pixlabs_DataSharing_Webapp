@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <link rel="stylesheet" type="text/css" href="../../static/css/MainStyle.css" th:href="@{css/MainStyle.css}" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/ProjectStyle.css" th:href="@{css/ProjectStyle.css}" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="../../static/js/pixlabs.js" th:src="@{js/pixlabs.js}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <meta charset="UTF-8"/>
+    <title>Pix-Labs</title>
+</head>
+<body>
+<!--<img class="bg" src="../static/img/backgroundMain.jpg" th:src="@{img/backgroundMain.jpg}"/>-->
+<div class="header" id="header" th:include="header/Header">
+</div>
+<div class="body-content" id="mainBody">
+    <div class="user-navigation" id="user-navigation" th:include="header/Navigation"></div>
+    <!--Add some index content-->
+
+    <div class="header-title" id="pageTitle">New project</div>
+    <!--/*@thymesVar id="projectDto" type="com.pixlabs.web.dto.ProjectDto"*/-->
+    <form th:object="${projectDto}" th:action="@{/createProject}" th:method="POST" class="creation-form" id="projectCreationForm" name="projectCreationForm">
+        <label for="projectTitle">Project title: </label><br/>
+        <input th:field="*{title}" type="text" placeholder="Title" id="projectTitle" required="required"><br/>
+        <label for="projectDescription">Description: </label><br/>
+        <textarea th:field="*{description}" id="projectDescription"  placeholder="Here you can put a very nice project description" form="projectCreationForm"></textarea>
+        <br/>
+        <label for="projectTags">Tags: </label>
+        <input th:field="*{tags}" id="projectTags"><br/>
+        <input class="confirmation-button" type="submit" value="Create project">
+
+    </form>
+
+
+
+</div>
+
+
+<div class="footerContainer" th:include="footer/Footer">
+</div>
+</body>
+</html>

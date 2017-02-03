@@ -15,6 +15,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -109,7 +110,11 @@ public class SecurityController {
 
     @RequestMapping(value = "/savePasswordReset",method = RequestMethod.POST)
     @ResponseBody
-    public GenericResponse passwordRecoveryValidation(@Valid PasswordResetDto resetDto, Model model){
+    public GenericResponse passwordRecoveryValidation(@Valid PasswordResetDto resetDto, Model model, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return new GenericResponse("error");
+
+        }
         System.out.println("Changing pass:");
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         userService.updateUserPassword((User) principal,resetDto.getPassword());

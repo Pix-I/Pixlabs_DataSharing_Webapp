@@ -136,6 +136,9 @@
     top:100px;
     width: 150px;
 }
+#pageTitle{
+    width: 50%;
+}
 
 #updateInfoForm{
     position: relative;

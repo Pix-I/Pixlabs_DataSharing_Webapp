@@ -1,11 +1,9 @@
 package com.pixlabs.data.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import java.util.Collection;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by pix-i on 17/01/2017.
@@ -14,18 +12,35 @@ import java.util.Date;
 
 
 @Entity
+@Table(name = "project")
 public class Project {
 
     @GeneratedValue
     @Id
     private long id;
 
-    @ManyToMany(mappedBy = "projects")
-    private Collection<User> ownership;
+    @ManyToOne
+    private User owner;
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public String getTags() {
+        return tags;
+    }
 
     private String description;
 
+    @NotNull
     private String title;
+    private String tags = "";
+
+    @ManyToMany
+    @JoinTable(name = "project_tags",
+            joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "projectTag_id", referencedColumnName = "id"))
+    private List<ProjectTag> tagList;
 
     private Date creationDate;
 
@@ -39,61 +54,49 @@ public class Project {
 
     private boolean restricted;
 
-    protected Project(){}
-
-    private Project(Builder builder){
-        this.description = builder.description;
-        this.title = builder.title;
-        this.creationDate = builder.creationDate;
-        this.restricted = builder.restricted;
-        this.ownership.add(builder.user);
+    public Project(){
+        this.restricted = true;
+        this.creationDate = new Date();
     }
 
-    public static class Builder{
 
-        private String description = "Project description";
-
-        private String title = "";
-
-        private Date creationDate = new Date();
-
-        private boolean restricted = false;
-        private User user;
-
-        public Builder(){
-        }
-
-        public Project build(){
-            return new Project(this);
-        }
-
-        public Builder description(String description) {
-            this.description = description;
-            return this;
-        }
-
-        public Builder title(String title) {
-            this.title = title;
-            return this;
-        }
-
-        public Builder creationDate(Date creationDate) {
-            this.creationDate = creationDate;
-            return this;
-        }
-
-        public Builder restricted(boolean restricted) {
-            this.restricted = restricted;
-            return this;
-        }
-
-
-        public Builder user(User user) {
-            this.user = user;
-            return this;
-        }
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 
+    public void setUsers(User user) {
+        this.owner = user;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Project project = (Project) obj;
+        if (!project.title.equals(this.title)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", users=" + owner +
+                ", title='" + title + '\'' +
+                ", tags='" + tags + '\'' +
+                ", creationDate=" + creationDate +
+                ", restricted=" + restricted +
+                '}';
+    }
 
     public long getId() {
         return id;
@@ -125,5 +128,17 @@ public class Project {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public List<ProjectTag> getTagList() {
+        return tagList;
+    }
+
+    public void setTagList(List<ProjectTag> tagList) {
+        this.tagList = tagList;
     }
 }
