@@ -19,16 +19,16 @@ public class Privilege {
     @GeneratedValue
     private long id;
 
-    private String username;
+    private String name;
 
     @ManyToMany(mappedBy = "privileges")
     private Collection<Role> roles;
 
     public Privilege(){}
 
-    public Privilege(final String username){
+    public Privilege(final String Name){
         super();
-        this.username = username;
+        this.name = Name;
     }
 
     public long getId() {
@@ -39,12 +39,12 @@ public class Privilege {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Collection<Role> getRoles() {
@@ -61,7 +61,7 @@ public class Privilege {
     public String toString() {
         return "Privilege{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
+                ", name='" + name + '\'' +
                 ", roles=" + roles +
                 '}';
     }

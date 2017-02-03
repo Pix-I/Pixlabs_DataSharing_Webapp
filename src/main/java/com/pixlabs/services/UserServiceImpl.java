@@ -81,9 +81,8 @@ public class UserServiceImpl implements UserService {
         //Add profile picture
         user.setProfilePicture(GravatarUtil.getGravatar(userDto.getEmail()));
         //Add roles
+        user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
 
-        //Add email verification
-//        user.setEnabled(true);
 
         return userRepository.save(user);
     }

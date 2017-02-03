@@ -92,12 +92,6 @@
             <artifactId>javax.inject</artifactId>
             <version>1</version>
         </dependency>
-        <dependency>
-            <groupId>com.timgroup</groupId>
-            <artifactId>jgravatar</artifactId>
-            <version>RELEASE</version>
-        </dependency>
-
     </dependencies>
 
 	<build>
