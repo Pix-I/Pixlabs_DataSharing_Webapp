@@ -1,10 +1,8 @@
 package com.pixlabs.data.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -13,17 +11,35 @@ import java.util.List;
  */
 
 @Entity
-public class ProjectTag {
+public class ProjectTag implements Comparable{
 
 
     @GeneratedValue
     @Id
     private long id;
 
+    public String getName() {
+        return name;
+    }
+
     @NotNull
     private String name;
 
-    @ManyToMany(mappedBy = "tagList")
+    @Override
+    public String toString() {
+        return "ProjectTag{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof ProjectTag && ((ProjectTag) o).getId() == this.id
+                && ((ProjectTag) o).getName().equals(this.name);
+    }
+
+    @ManyToMany(mappedBy = "tagList",fetch = FetchType.LAZY)
     private List<Project> projects;
 
     public ProjectTag(){}
@@ -46,5 +62,29 @@ public class ProjectTag {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public void addProject(Project project) {
+        if(this.projects==null){
+            projects = new LinkedList<>();
+        }
+        this.projects.add(project);
+    }
+
+    public void removeProject(Project project){
+        for(Project p:projects){
+            if(p.equals(project)){
+                projects.remove(project);
+            }
+        }
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if(o instanceof ProjectTag){
+            ProjectTag tag = (ProjectTag) o;
+            return tag.getName().compareTo(this.getName());
+        }
+        return 0;
     }
 }

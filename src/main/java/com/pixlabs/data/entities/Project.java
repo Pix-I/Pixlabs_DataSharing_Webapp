@@ -3,7 +3,8 @@ package com.pixlabs.data.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Created by pix-i on 17/01/2017.
@@ -26,21 +27,26 @@ public class Project {
         return owner;
     }
 
-    public String getTags() {
-        return tags;
-    }
 
     private String description;
 
     @NotNull
     private String title;
-    private String tags = "";
+
+    public SortedSet<ProjectTag> getTagList() {
+        return tagList;
+    }
+
+    public void setTagList(SortedSet<ProjectTag> tagList) {
+        this.tagList = tagList;
+    }
 
     @ManyToMany
+    @OrderBy("name ASC")
     @JoinTable(name = "project_tags",
             joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "projectTag_id", referencedColumnName = "id"))
-    private List<ProjectTag> tagList;
+    private SortedSet<ProjectTag> tagList = new TreeSet<>();
 
     private Date creationDate;
 
@@ -60,9 +66,6 @@ public class Project {
     }
 
 
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
 
     public void setUsers(User user) {
         this.owner = user;
@@ -92,7 +95,7 @@ public class Project {
                 "id=" + id +
                 ", users=" + owner +
                 ", title='" + title + '\'' +
-                ", tags='" + tags + '\'' +
+                ", tags='" + tagList.toString() + '\'' +
                 ", creationDate=" + creationDate +
                 ", restricted=" + restricted +
                 '}';
@@ -134,11 +137,4 @@ public class Project {
         this.owner = owner;
     }
 
-    public List<ProjectTag> getTagList() {
-        return tagList;
-    }
-
-    public void setTagList(List<ProjectTag> tagList) {
-        this.tagList = tagList;
-    }
 }

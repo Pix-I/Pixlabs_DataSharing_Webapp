@@ -11,7 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Created by pix-i on 17/01/2017.
@@ -40,26 +41,79 @@ public class ProjectServiceImpl implements ProjectService {
                 new Project();
         project.setTitle(title);
         project.setDescription(description);
-        project.setTagList(tagsParser(tags));
+        //Tags
+        SortedSet<ProjectTag> tagList = tagsParser(tags);
+        project.setTagList(tagList);
         projectRepository.save(project);
         user.addProject(project);
         userRepository.save(user);
+        for(ProjectTag tag:tagList){
+            tag.addProject(project);
+            projectTagRepository.save(tag);
+        }
+
     }
 
 
-    private List<ProjectTag > tagsParser(String s){
+    private SortedSet<ProjectTag > tagsParser(String s){
         s = s.replaceAll("\\s","");
         String[] tags =s.split(",");
-        List<ProjectTag> tagList = new LinkedList<>();
+        SortedSet<ProjectTag> tagList = new TreeSet<>();
         for(String t:tags){
             ProjectTag tempTag = projectTagRepository.findByName(t);
             if(tempTag==null){
                 tempTag = new ProjectTag(t);
-                projectTagRepository.save(tempTag);
             }
             tagList.add(tempTag);
         }
         return tagList;
+    }
+
+    @Override
+    @Transactional
+    public LinkedList<Project> findProjectsByTag(String s){
+        s = s.replaceAll("\\s","");
+        String[] tags =s.split(",");
+        LinkedList<Project> projectList = new LinkedList<>();
+        for(String t:tags){
+            ProjectTag tag = projectTagRepository.findByName(t);
+            if(tag!=null){
+                 for(Project p:tag.getProjects()){
+                    if(!projectList.contains(p)){
+                        projectList.add(p);
+                    }
+                }
+
+            }
+        }
+        return projectList;
+    }
+
+
+    @Override
+    @Transactional
+    public void updateTags(Project project, String tags){
+        SortedSet<ProjectTag> tagList = tagsParser(tags);
+        for(ProjectTag tag:tagList){
+            if(!tag.getProjects().contains(project)){
+                tag.addProject(project);
+                projectTagRepository.save(tag);
+            }
+        }
+        for(ProjectTag tag:project.getTagList()){
+            if(!tagList.contains(tag)){
+                tag.removeProject(project);
+                projectTagRepository.save(tag);
+            }
+        }
+        project.setTagList(tagList);
+        projectRepository.save(project);
+    }
+
+
+    @Override
+    public Project getProjectByTitle(String title){
+        return projectRepository.findBytitle(title);
     }
 
 

@@ -3,6 +3,7 @@ package com.pixlabs.test;
 import com.pixlabs.data.dao.ProjectRepository;
 import com.pixlabs.data.dao.ProjectTagRepository;
 import com.pixlabs.data.dao.UserRepository;
+import com.pixlabs.data.entities.Project;
 import com.pixlabs.data.entities.ProjectTag;
 import com.pixlabs.data.entities.User;
 import com.pixlabs.services.ProjectService;
@@ -18,7 +19,10 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.inject.Inject;
 
+import java.util.LinkedList;
+
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 /**
  * Created by pix-i on 06/02/2017.
@@ -27,7 +31,7 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
-public class ProjectCreationTest {
+public class ProjectServiceTest {
 
 
     private WebApplicationContext applicationContext;
@@ -39,7 +43,9 @@ public class ProjectCreationTest {
 
     private MockMvc mockMvc;
 
-    public ProjectCreationTest() {
+    private User testUser;
+
+    public ProjectServiceTest() {
     }
 
     //Setting up a new user
@@ -49,12 +55,18 @@ public class ProjectCreationTest {
 
         tagRepository.save(new ProjectTag("tag1"));
         tagRepository.flush();
-        User user = new User();
-        user.setEmail("admin@pix-labs.com");
-        user.setPassword("testing");
-        user.setUsername("test");
-        userRepository.save(user);
+        testUser = new User();
+        testUser.setEmail("admin@pix-labs.com");
+        testUser.setPassword("testing");
+        testUser.setUsername("test");
+        userRepository.save(testUser);
         userRepository.flush();
+
+        System.out.println("Adding dummy projects");
+        projectService.createProject("tagsTestProject1","test description","tag1",testUser);
+        projectService.createProject("tagsTestProject2","test description","tag2,tag4",testUser);
+        projectService.createProject("tagsTestProject3","test description","tag2",testUser);
+
     }
 
     @Test
@@ -75,6 +87,29 @@ public class ProjectCreationTest {
         assertNotNull(tagRepository.findByName("tag3"));
         assertNotNull(tagRepository.findByName("tag2"));
         assertNotNull(tagRepository.findByName("tag1"));
+    }
+
+    @Test
+    public void findByTagsTest(){
+        String tags = "tag1 , newTag ,tag4,tag2";
+        projectService.createProject("tagsTestProject3","test description","unfoundTag",testUser);
+        LinkedList<Project> projects = projectService.findProjectsByTag(tags);
+        assertNotNull(projects);
+        if(projects.size()!=3){
+            fail();
+        }
+    }
+
+    @Test
+    public void updateTagsTest(){
+        projectService.createProject("testProjectUpdateTags","test description","tag1,tag2,tag3",testUser);
+        Project project = projectService.getProjectByTitle("testProjectUpdateTags");
+        projectService.updateTags(project,"tag1,tag3");
+        if(projectService.getProjectByTitle("testProjectUpdateTags").getTagList().size()!=2){
+            System.out.println(projectService.getProjectByTitle("testProjectUpdateTags").getTagList().size());
+            fail();
+        }
+
     }
 
 
