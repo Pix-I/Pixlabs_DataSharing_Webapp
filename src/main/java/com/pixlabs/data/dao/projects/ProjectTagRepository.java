@@ -1,6 +1,6 @@
-package com.pixlabs.data.dao;
+package com.pixlabs.data.dao.projects;
 
-import com.pixlabs.data.entities.ProjectTag;
+import com.pixlabs.data.entities.projects.ProjectTag;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

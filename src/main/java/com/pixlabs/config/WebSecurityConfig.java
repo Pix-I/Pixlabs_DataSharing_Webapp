@@ -1,6 +1,6 @@
 package com.pixlabs.config;
 
-import com.pixlabs.data.dao.UserRepository;
+import com.pixlabs.data.dao.user.UserRepository;
 import com.pixlabs.security.AuthenticationProviderImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

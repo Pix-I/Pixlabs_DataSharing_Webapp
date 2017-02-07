@@ -1,10 +1,10 @@
 package com.pixlabs.test;
 
 
-import com.pixlabs.data.dao.UserRepository;
-import com.pixlabs.data.dao.VerificationTokenRepository;
-import com.pixlabs.data.entities.User;
-import com.pixlabs.data.entities.VerificationToken;
+import com.pixlabs.data.dao.user.UserRepository;
+import com.pixlabs.data.dao.user.VerificationTokenRepository;
+import com.pixlabs.data.entities.user.User;
+import com.pixlabs.data.entities.user.VerificationToken;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

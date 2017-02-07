@@ -1,6 +1,6 @@
 package com.pixlabs.web.controllers;
 
-import com.pixlabs.data.entities.User;
+import com.pixlabs.data.entities.user.User;
 import com.pixlabs.services.ProjectService;
 import com.pixlabs.web.dto.ProjectDto;
 import org.springframework.security.core.context.SecurityContextHolder;

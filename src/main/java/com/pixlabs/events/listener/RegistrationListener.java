@@ -1,6 +1,6 @@
 package com.pixlabs.events.listener;
 
-import com.pixlabs.data.entities.User;
+import com.pixlabs.data.entities.user.User;
 import com.pixlabs.events.NewRegistrationCompleteEvent;
 import com.pixlabs.services.UserService;
 import org.springframework.beans.factory.annotation.Value;

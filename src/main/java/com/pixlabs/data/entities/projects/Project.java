@@ -1,10 +1,11 @@
-package com.pixlabs.data.entities;
+package com.pixlabs.data.entities.projects;
+
+import com.pixlabs.data.entities.projects.pldata.DataSet;
+import com.pixlabs.data.entities.user.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Created by pix-i on 17/01/2017.
@@ -27,6 +28,8 @@ public class Project {
         return owner;
     }
 
+    @ManyToMany(mappedBy = "projectList")
+    private List<DataSet> dataSets = new LinkedList<>();
 
     private String description;
 
@@ -137,4 +140,13 @@ public class Project {
         this.owner = owner;
     }
 
+    public List<DataSet> getDataSets() {
+        return dataSets;
+    }
+
+    public void setDataSets(List<DataSet> dataSets) {
+        this.dataSets = dataSets;
+    }
+
+    public void addDataSet(DataSet dataSet) { this.dataSets.add(dataSet);}
 }

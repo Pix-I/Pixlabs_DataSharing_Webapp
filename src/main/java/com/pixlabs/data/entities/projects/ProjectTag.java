@@ -1,4 +1,4 @@
-package com.pixlabs.data.entities;
+package com.pixlabs.data.entities.projects;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -78,6 +78,7 @@ public class ProjectTag implements Comparable{
             }
         }
     }
+
 
     @Override
     public int compareTo(Object o) {

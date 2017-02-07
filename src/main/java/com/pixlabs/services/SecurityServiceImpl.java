@@ -1,9 +1,9 @@
 package com.pixlabs.services;
 
-import com.pixlabs.data.dao.PasswordResetTokenRepository;
-import com.pixlabs.data.dao.UserRepository;
-import com.pixlabs.data.entities.PasswordResetToken;
-import com.pixlabs.data.entities.User;
+import com.pixlabs.data.dao.user.PasswordResetTokenRepository;
+import com.pixlabs.data.dao.user.UserRepository;
+import com.pixlabs.data.entities.user.PasswordResetToken;
+import com.pixlabs.data.entities.user.User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;

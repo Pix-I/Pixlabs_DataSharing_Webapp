@@ -1,6 +1,6 @@
 package com.pixlabs.events;
 
-import com.pixlabs.data.entities.User;
+import com.pixlabs.data.entities.user.User;
 import org.springframework.context.ApplicationEvent;
 
 /**

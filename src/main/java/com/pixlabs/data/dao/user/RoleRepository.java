@@ -1,6 +1,6 @@
-package com.pixlabs.data.dao;
+package com.pixlabs.data.dao.user;
 
-import com.pixlabs.data.entities.Role;
+import com.pixlabs.data.entities.user.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

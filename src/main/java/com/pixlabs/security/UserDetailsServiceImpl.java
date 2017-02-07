@@ -1,9 +1,9 @@
 package com.pixlabs.security;
 
-import com.pixlabs.data.dao.UserRepository;
-import com.pixlabs.data.entities.Privilege;
-import com.pixlabs.data.entities.Role;
-import com.pixlabs.data.entities.User;
+import com.pixlabs.data.dao.user.UserRepository;
+import com.pixlabs.data.entities.user.Privilege;
+import com.pixlabs.data.entities.user.Role;
+import com.pixlabs.data.entities.user.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

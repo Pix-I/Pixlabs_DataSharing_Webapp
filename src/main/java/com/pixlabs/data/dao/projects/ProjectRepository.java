@@ -1,6 +1,6 @@
-package com.pixlabs.data.dao;
+package com.pixlabs.data.dao.projects;
 
-import com.pixlabs.data.entities.Project;
+import com.pixlabs.data.entities.projects.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProjectRepository extends JpaRepository<Project,Long> {
 
-    Project findBytitle(String title);
+    Project findByTitle(String title);
 
     @Override
     void delete(Project project);

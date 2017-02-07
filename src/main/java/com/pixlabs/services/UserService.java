@@ -1,10 +1,10 @@
 package com.pixlabs.services;
 
-import com.pixlabs.data.dao.RoleRepository;
-import com.pixlabs.data.dao.UserRepository;
-import com.pixlabs.data.dao.VerificationTokenRepository;
-import com.pixlabs.data.entities.PasswordResetToken;
-import com.pixlabs.data.entities.User;
+import com.pixlabs.data.dao.user.RoleRepository;
+import com.pixlabs.data.dao.user.UserRepository;
+import com.pixlabs.data.dao.user.VerificationTokenRepository;
+import com.pixlabs.data.entities.user.PasswordResetToken;
+import com.pixlabs.data.entities.user.User;
 import com.pixlabs.exceptions.UserAlreadyExistException;
 import com.pixlabs.web.dto.UserDto;
 import com.pixlabs.web.dto.UserPrefDto;

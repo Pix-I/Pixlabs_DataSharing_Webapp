@@ -1,11 +1,11 @@
 package com.pixlabs.config;
 
-import com.pixlabs.data.dao.PrivilegeRepository;
-import com.pixlabs.data.dao.RoleRepository;
-import com.pixlabs.data.dao.UserRepository;
-import com.pixlabs.data.entities.Privilege;
-import com.pixlabs.data.entities.Role;
-import com.pixlabs.data.entities.User;
+import com.pixlabs.data.dao.user.PrivilegeRepository;
+import com.pixlabs.data.dao.user.RoleRepository;
+import com.pixlabs.data.dao.user.UserRepository;
+import com.pixlabs.data.entities.user.Privilege;
+import com.pixlabs.data.entities.user.Role;
+import com.pixlabs.data.entities.user.User;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;

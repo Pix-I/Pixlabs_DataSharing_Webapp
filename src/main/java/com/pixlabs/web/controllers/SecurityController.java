@@ -1,6 +1,6 @@
 package com.pixlabs.web.controllers;
 
-import com.pixlabs.data.entities.User;
+import com.pixlabs.data.entities.user.User;
 import com.pixlabs.events.NewRegistrationCompleteEvent;
 import com.pixlabs.exceptions.UserAlreadyExistException;
 import com.pixlabs.services.SecurityService;

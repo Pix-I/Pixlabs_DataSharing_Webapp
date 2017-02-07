@@ -1,11 +1,13 @@
 package com.pixlabs.test;
 
-import com.pixlabs.data.dao.ProjectRepository;
-import com.pixlabs.data.dao.ProjectTagRepository;
-import com.pixlabs.data.dao.UserRepository;
-import com.pixlabs.data.entities.Project;
-import com.pixlabs.data.entities.ProjectTag;
-import com.pixlabs.data.entities.User;
+import com.pixlabs.data.dao.projects.ProjectRepository;
+import com.pixlabs.data.dao.projects.ProjectTagRepository;
+import com.pixlabs.data.dao.projects.pldata.DataSetRepository;
+import com.pixlabs.data.dao.projects.pldata.DataUnitRepository;
+import com.pixlabs.data.dao.user.UserRepository;
+import com.pixlabs.data.entities.projects.Project;
+import com.pixlabs.data.entities.projects.ProjectTag;
+import com.pixlabs.data.entities.user.User;
 import com.pixlabs.services.ProjectService;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,8 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.inject.Inject;
-
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
@@ -44,6 +47,8 @@ public class ProjectServiceTest {
     private MockMvc mockMvc;
 
     private User testUser;
+    private DataSetRepository dataSetRepository;
+    private DataUnitRepository dataUnitRepository;
 
     public ProjectServiceTest() {
     }
@@ -62,7 +67,15 @@ public class ProjectServiceTest {
         userRepository.save(testUser);
         userRepository.flush();
 
+        //Dummy dataset
+        Map<String,Long> dummyDataSet = new HashMap<>();
+        dummyDataSet.put("data1",1L);
+        dummyDataSet.put("data2",2L);
+        dummyDataSet.put("data3",4L);
+        projectService.addDataSet(testUser,dummyDataSet,"testDataSet");
+
         System.out.println("Adding dummy projects");
+        projectService.createProject("dummyProject","test description","tag",testUser);
         projectService.createProject("tagsTestProject1","test description","tag1",testUser);
         projectService.createProject("tagsTestProject2","test description","tag2,tag4",testUser);
         projectService.createProject("tagsTestProject3","test description","tag2",testUser);
@@ -74,7 +87,7 @@ public class ProjectServiceTest {
         final User user = userRepository.findByUsername("test");
         projectService.createProject("testProject","test description","tag",user);
 
-        assertNotNull(projectRepository.findBytitle("testProject"));
+        assertNotNull(projectRepository.findByTitle("testProject"));
         assertNotNull(tagRepository.findByName("tag"));
     }
 
@@ -113,6 +126,20 @@ public class ProjectServiceTest {
     }
 
 
+
+    @Test
+    public void connectDataSetTest(){
+        Project project = projectRepository.findByTitle("dummyProject");
+        projectService.connectDataSet(project,"testDataSet",testUser);
+        User resultUser = userRepository.findByUsername("test");
+        assertNotNull(resultUser.getDataSets());
+        if(!resultUser.getDataSets().contains(dataSetRepository.findByName("testDataSet"))){
+            fail();
+        }
+
+    }
+
+
     @Inject
     public void setProjectService(ProjectService projectService) {
         this.projectService = projectService;
@@ -124,17 +151,27 @@ public class ProjectServiceTest {
     }
 
     @Inject
+    public void setProjectRepository(ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
+    }
+
+    @Inject
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Inject
-    public void setTagRepository(ProjectTagRepository tagRepository) {
-        this.tagRepository = tagRepository;
+    public void setProjectTagRepository(ProjectTagRepository projectTagRepository) {
+        this.tagRepository = projectTagRepository;
     }
 
     @Inject
-    public void setProjectRepository(ProjectRepository projectRepository) {
-        this.projectRepository = projectRepository;
+    public void setDataSetRepository(DataSetRepository dataSetRepository) {
+        this.dataSetRepository = dataSetRepository;
+    }
+
+    @Inject
+    public void setDataUnitRepository(DataUnitRepository dataUnitRepository) {
+        this.dataUnitRepository = dataUnitRepository;
     }
 }

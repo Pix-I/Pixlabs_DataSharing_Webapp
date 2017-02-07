@@ -1,6 +1,6 @@
 package com.pixlabs.data.entities.util;
 
-import com.pixlabs.data.entities.ProjectTag;
+import com.pixlabs.data.entities.projects.ProjectTag;
 
 import java.util.Comparator;
 

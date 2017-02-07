@@ -1,4 +1,4 @@
-package com.pixlabs.data.entities;
+package com.pixlabs.data.entities.user;
 
 import javax.persistence.*;
 import java.util.Calendar;

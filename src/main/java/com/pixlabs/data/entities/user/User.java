@@ -1,4 +1,7 @@
-package com.pixlabs.data.entities;
+package com.pixlabs.data.entities.user;
+
+import com.pixlabs.data.entities.projects.Project;
+import com.pixlabs.data.entities.projects.pldata.DataSet;
 
 import javax.persistence.*;
 import java.util.*;
@@ -47,6 +50,14 @@ public class User {
                     inverseJoinColumns={ @JoinColumn(name="project_id", referencedColumnName="id", unique=true) }
             )
     private List<Project> projects;
+
+    public List<DataSet> getDataSets() {
+        return dataSets;
+    }
+
+    @OneToMany
+
+    private List<DataSet> dataSets = new ArrayList<>();
 
     public Collection<Role> getRoles() {
         return roles;
@@ -186,5 +197,9 @@ public class User {
 
     public void setProfilePicture(byte[] profilePicture) {
         this.profilePicture = profilePicture;
+    }
+
+    public void addDataset(DataSet dataSet) {
+        this.dataSets.add(dataSet);
     }
 }
