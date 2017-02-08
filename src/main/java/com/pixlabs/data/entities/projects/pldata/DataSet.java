@@ -1,6 +1,7 @@
 package com.pixlabs.data.entities.projects.pldata;
 
 import com.pixlabs.data.entities.projects.Project;
+import com.pixlabs.data.entities.projects.ProjectVotes;
 import com.pixlabs.data.entities.user.User;
 
 import javax.persistence.*;
@@ -37,6 +38,16 @@ public class DataSet{
 
     )
     private List<Project> projectList = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "projects_votes",
+            joinColumns = {@JoinColumn(name = "project_id",referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name="projectVotes_id",referencedColumnName = "id")}
+
+    )
+    private List<ProjectVotes> projectVotes = new LinkedList<>();
+
 
     private boolean isPublic;
 
@@ -134,7 +145,6 @@ public class DataSet{
     public void setLastUpdate(Date lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
-
 
 
 }

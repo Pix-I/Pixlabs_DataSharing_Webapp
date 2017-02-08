@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -51,14 +52,15 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
         // Creating the admin
         final Role adminRole = roleRepository.findByName("ROLE_ADMIN");
-        final User user = new User();
-        user.setUsername("admin");
-        user.setEmail("pix@pix-labs.com");
-        user.setPassword(encoder.encode("testing"));
-        user.setRoles(Arrays.asList(adminRole));
-        user.setEnabled(true);
-        userRepository.save(user);
-
+        if(userRepository.findByUsername("admin")==null) {
+            final User user = new User();
+            user.setUsername("admin");
+            user.setEmail("pix@pix-labs.com");
+            user.setPassword(encoder.encode("testing"));
+            user.setRoles(Collections.singletonList(adminRole));
+            user.setEnabled(true);
+            userRepository.save(user);
+        }
         setupDone = true;
 
     }

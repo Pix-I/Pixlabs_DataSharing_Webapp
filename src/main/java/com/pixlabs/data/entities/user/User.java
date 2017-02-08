@@ -51,6 +51,23 @@ public class User {
             )
     private List<Project> projects;
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_projectVotes",
+            joinColumns = {@JoinColumn(name = "user_id",referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "project_id",referencedColumnName = "id")}
+    )
+    private List<Project> projectVotes = new LinkedList<>();
+
+    @ManyToMany
+    @JoinTable(
+        name = "user_dataSetVotes",
+            joinColumns = {@JoinColumn(name = "user_id",referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "dataSet_id",referencedColumnName = "id")}
+    )
+    private List<DataSet> dataSetVotes = new LinkedList<>();
+
+
     public List<DataSet> getDataSets() {
         return dataSets;
     }
@@ -201,5 +218,21 @@ public class User {
 
     public void addDataset(DataSet dataSet) {
         this.dataSets.add(dataSet);
+    }
+
+    public List<Project> getProjectVotes() {
+        return projectVotes;
+    }
+
+    public void setProjectVotes(List<Project> projectVotes) {
+        this.projectVotes = projectVotes;
+    }
+
+    public List<DataSet> getDataSetVotes() {
+        return dataSetVotes;
+    }
+
+    public void setDataSetVotes(List<DataSet> dataSetVotes) {
+        this.dataSetVotes = dataSetVotes;
     }
 }

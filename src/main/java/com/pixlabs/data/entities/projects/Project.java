@@ -52,22 +52,21 @@ public class Project {
     private SortedSet<ProjectTag> tagList = new TreeSet<>();
 
     private Date creationDate;
+    private Date modificationDate;
 
-    public boolean isRestricted() {
-        return restricted;
-    }
+    private int totalUpVotes;
+    private int totalDownVotes;
 
-    public void setRestricted(boolean restricted) {
-        this.restricted = restricted;
-    }
+    @ManyToMany(mappedBy = "projectVotes")
+    private List<User> votes = new LinkedList<>();
 
-    private boolean restricted;
+    private boolean restricted = true;
 
-    public Project(){
+    public Project() {
         this.restricted = true;
         this.creationDate = new Date();
+        this.modificationDate = this.creationDate;
     }
-
 
 
     public void setUsers(User user) {
@@ -106,6 +105,13 @@ public class Project {
 
     public long getId() {
         return id;
+    }
+    public boolean isRestricted() {
+        return restricted;
+    }
+
+    public void setRestricted(boolean restricted) {
+        this.restricted = restricted;
     }
 
     public void setId(long id) {
@@ -148,5 +154,39 @@ public class Project {
         this.dataSets = dataSets;
     }
 
-    public void addDataSet(DataSet dataSet) { this.dataSets.add(dataSet);}
+    public void addDataSet(DataSet dataSet) {
+        this.dataSets.add(dataSet);
+    }
+
+    public Date getModificationDate() {
+        return modificationDate;
+    }
+
+    public void setModificationDate(Date modificationDate) {
+        this.modificationDate = modificationDate;
+    }
+
+    public int getTotalUpVotes() {
+        return totalUpVotes;
+    }
+
+    public void setTotalUpVotes(int totalUpVotes) {
+        this.totalUpVotes = totalUpVotes;
+    }
+
+    public int getTotalDownVotes() {
+        return totalDownVotes;
+    }
+
+    public void setTotalDownVotes(int totalDownVotes) {
+        this.totalDownVotes = totalDownVotes;
+    }
+
+    public List<User> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<User> votes) {
+        this.votes = votes;
+    }
 }

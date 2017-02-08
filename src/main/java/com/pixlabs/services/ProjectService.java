@@ -20,10 +20,13 @@ public interface ProjectService {
     LinkedList<Project> findProjectsByTag(String tags);
 
     @Transactional
-    void updateTags(Project project, String tags);
+    void updateTags(User user, Project project, String tags);
 
     @Transactional
     void addDataSet(User owner, Map<String, Long> dataMap, String name);
+
+    @Transactional
+    void voteProject(User activeUser, Project project, int value);
 
     @Transactional
     void updateDataSet(User activeUser, String name, Map<String, Long> dataMap);
@@ -35,7 +38,7 @@ public interface ProjectService {
     void createAndConnectDataSet(User activeUser, Project project, Map<String, Long> dataMap, String name);
 
     @Transactional
-    boolean connectDataSet(Project project, String dataSetName,User activeUser);
+    boolean connectDataSet(User activeUser, Project project, String dataSetName);
 
     @Transactional
     Project getProjectByTitle(String title);
