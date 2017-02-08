@@ -80,6 +80,12 @@ public class ProjectServiceImpl implements ProjectService {
         return tagList;
     }
 
+
+    /**
+     * Finds all the projects containing the following tags
+     * @param s Tag
+     * @return LinkedList of projects containing the tag.
+     */
     @Override
     @Transactional
     public LinkedList<Project> findProjectsByTag(String s){
@@ -90,7 +96,7 @@ public class ProjectServiceImpl implements ProjectService {
             ProjectTag tag = projectTagRepository.findByName(t);
             if(tag!=null){
                  for(Project p:tag.getProjects()){
-                    if(!projectList.contains(p)){
+                    if(!projectList.contains(p) && !p.isRestricted()){
                         projectList.add(p);
                     }
                 }
@@ -101,24 +107,34 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
 
+    /**
+     * Updates the tags for a project.
+     * @param user Must be the owner of the project.
+     * @param project Project that needs to update its tags.
+     * @param tags New tags.
+     */
     @Override
     @Transactional
-    public void updateTags(Project project, String tags){
-        SortedSet<ProjectTag> tagList = tagsParser(tags);
-        for(ProjectTag tag:tagList){
-            if(!tag.getProjects().contains(project)){
-                tag.addProject(project);
-                projectTagRepository.save(tag);
+    public void updateTags(User user,Project project, String tags){
+        if(project.getOwner().equals(user)) {
+            SortedSet<ProjectTag> tagList = tagsParser(tags);
+            for (ProjectTag tag : tagList) {
+                if (!tag.getProjects().contains(project)) {
+                    tag.addProject(project);
+                    projectTagRepository.save(tag);
+                }
             }
-        }
-        for(ProjectTag tag:project.getTagList()){
-            if(!tagList.contains(tag)){
-                tag.removeProject(project);
-                projectTagRepository.save(tag);
+            for (ProjectTag tag : project.getTagList()) {
+                if (!tagList.contains(tag)) {
+                    tag.removeProject(project);
+                    projectTagRepository.save(tag);
+                }
             }
+            project.setTagList(tagList);
+            projectRepository.save(project);
+            return;
         }
-        project.setTagList(tagList);
-        projectRepository.save(project);
+        throw new  PermissionDeniedException("Access denied");
     }
 
 
@@ -145,6 +161,19 @@ public class ProjectServiceImpl implements ProjectService {
         dataSetRepository.save(dataSet);
         userRepository.save(owner);
     }
+
+    /**
+     * Changes the upvotes of a project.
+     * @param activeUser User that votes.
+     * @param project Affected project.
+     * @param value Int value can be -1,0 or 1, represents the vote.
+     */
+    @Override
+    @Transactional
+    public void voteProject(User activeUser,Project project,int value){
+
+    }
+
 
 
     /**
@@ -187,12 +216,19 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
 
+    /**
+     * Creates and connects a DataSet to a project.
+     * @param activeUser Owner to be of the DataSet.
+     * @param project Project where the DataSet belongs.
+     * @param dataMap Map of the data.
+     * @param name Name of the DataSet.
+     */
 
     @Override
     @Transactional
     public void createAndConnectDataSet(User activeUser, Project project, Map<String, Long> dataMap, String name){
         addDataSet(activeUser,dataMap,name);
-        connectDataSet(project,name,activeUser);
+        connectDataSet(activeUser, project, name);
     }
 
     /**
@@ -203,7 +239,7 @@ public class ProjectServiceImpl implements ProjectService {
      */
     @Override
     @Transactional
-    public boolean connectDataSet(Project project, String dataSetName, User activeUser){
+    public boolean connectDataSet(User activeUser,Project project, String dataSetName){
         DataSet dataSet = dataSetRepository.findByName(dataSetName);
         if(dataSet!=null && (dataSet.isPublic() || dataSet.getDataSetOwner().equals(activeUser))) {
             project.addDataSet(dataSet);

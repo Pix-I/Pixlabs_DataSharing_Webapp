@@ -1,7 +1,9 @@
 package com.pixlabs.data.entities.user;
 
 import com.pixlabs.data.entities.projects.Project;
+import com.pixlabs.data.entities.projects.ProjectVotes;
 import com.pixlabs.data.entities.projects.pldata.DataSet;
+import com.pixlabs.data.entities.projects.pldata.DataSetVotes;
 
 import javax.persistence.*;
 import java.util.*;
@@ -50,6 +52,24 @@ public class User {
                     inverseJoinColumns={ @JoinColumn(name="project_id", referencedColumnName="id", unique=true) }
             )
     private List<Project> projects;
+
+
+    @OneToMany
+    @JoinTable(
+            name = "user_projectVotes",
+            joinColumns = {@JoinColumn(name="user_id",referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name="projectVote_id",referencedColumnName = "id")}
+    )
+    private List<ProjectVotes> projectVotes = new LinkedList<>();
+
+    @OneToMany
+    @JoinTable(
+            name = "user_dataSetVotes",
+            joinColumns = {@JoinColumn(name="user_id",referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name="dataSetVote_id",referencedColumnName = "id")}
+    )
+    private List<DataSetVotes> dataSetVotes = new LinkedList<>();
+
 
     public List<DataSet> getDataSets() {
         return dataSets;
@@ -201,5 +221,21 @@ public class User {
 
     public void addDataset(DataSet dataSet) {
         this.dataSets.add(dataSet);
+    }
+
+    public List<ProjectVotes> getProjectVotes() {
+        return projectVotes;
+    }
+
+    public void setProjectVotes(List<ProjectVotes> projectVotes) {
+        this.projectVotes = projectVotes;
+    }
+
+    public List<DataSetVotes> getDataSetVotes() {
+        return dataSetVotes;
+    }
+
+    public void setDataSetVotes(List<DataSetVotes> dataSetVotes) {
+        this.dataSetVotes = dataSetVotes;
     }
 }

@@ -1,0 +1,22 @@
+//ProjectService:
+
+
+Projects:
+Getters:
+- Tags
+- Name
+- User
+- Upvotes/Downvotes
+- CreationDate
+- ModificationDate
+
+Setters:
+- Tags
+- Name
+- Owner
+- Upvote/Downvote
+- ModificationDate
+
+DataSets:
+
+

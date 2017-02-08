@@ -4,12 +4,16 @@ import com.pixlabs.data.entities.projects.Project;
 import com.pixlabs.data.entities.user.User;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by pix-i on 07/02/2017.
  * ${Copyright}
  */
+
 @Entity
 public class DataSet{
 
@@ -37,6 +41,15 @@ public class DataSet{
 
     )
     private List<Project> projectList = new ArrayList<>();
+
+    @OneToMany
+    @JoinTable(
+            name = "dataSet_dataSetVotes",
+            joinColumns = @JoinColumn(name = "dataSet_id",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "dataSetVote_id",referencedColumnName = "id")
+    )
+    private List<DataSetVotes> votes = new LinkedList<>();
+
 
     private boolean isPublic;
 
@@ -136,5 +149,11 @@ public class DataSet{
     }
 
 
+    public List<DataSetVotes> getVotes() {
+        return votes;
+    }
 
+    public void setVotes(List<DataSetVotes> votes) {
+        this.votes = votes;
+    }
 }

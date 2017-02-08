@@ -22,7 +22,7 @@
 <div class="body-container" id="mainBody">
     <div class="user-navigation" id="user-navigation" th:include="header/Navigation"></div>
     <!--Add some index content-->
-    <h2>Currently logged in users</h2>
+    <h2>Currently logged in user</h2>
     <div th:each="user : ${onlineUsers}">
         <p th:text="${user}">user</p>
     </div>
