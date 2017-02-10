@@ -33,6 +33,18 @@ public class DataUnit {
         this.value = value;
     }
 
+    @Override
+    public boolean equals(Object o){
+        if(o==null)
+            return false;
+        if(o instanceof DataUnit){
+            DataUnit unit = (DataUnit)o;
+            return unit.getName().equals(name) && unit.getValue()==value;
+
+        }
+        return false;
+    }
+
     public DataUnit(String name) {
         this.name = name;
     }

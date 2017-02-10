@@ -13,15 +13,15 @@ import javax.persistence.ManyToOne;
  */
 
 @Entity
-public class ProjectVotes {
+public class ProjectVote {
 
     @GeneratedValue
     @Id
     private long id;
 
     /**
-     * Should be @ManyToOne, as a user can have multiple ProjectVotes
-     * and a Project is linked to all the ProjectVotes for that Project.
+     * Should be @ManyToOne, as a user can have multiple ProjectVote
+     * and a Project is linked to all the ProjectVote for that Project.
      * //TODO Maybe add a "recent history" to user.
      */
     @ManyToOne
@@ -33,13 +33,42 @@ public class ProjectVotes {
     private int vote;
 
     /**
-     * Should be @ManyToOne, projects have multiple ProjectVotes, but ProjectVotes only
+     * Should be @ManyToOne, projects have multiple ProjectVote, but ProjectVote only
      * have one Project.
      */
     @ManyToOne
     private Project project;
 
-    public ProjectVotes() {
+    /**
+     * Empty constructor to make JPA happy
+     * @param activeUser
+     * @param project
+     * @param value
+     */
+    public ProjectVote(User activeUser, Project project, int value) {
+    }
+
+    /**
+     * Just a constructor, links some User and Project to a vote.
+     * @param user User that voted.
+     * @param vote int value between -1,1 to represent the vote.
+     * @param project The project that was voted for.
+     */
+    public ProjectVote(User user, int vote, Project project) {
+        this.user = user;
+        this.vote = vote;
+        this.project = project;
+    }
+
+
+    @Override
+    public String toString() {
+        return "ProjectVote{" +
+                "id=" + id +
+                ", user=" + user +
+                ", vote=" + vote +
+                ", project=" + project +
+                '}';
     }
 
     public User getUser() {

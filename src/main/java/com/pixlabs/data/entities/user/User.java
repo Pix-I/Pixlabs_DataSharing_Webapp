@@ -1,9 +1,9 @@
 package com.pixlabs.data.entities.user;
 
 import com.pixlabs.data.entities.projects.Project;
-import com.pixlabs.data.entities.projects.ProjectVotes;
+import com.pixlabs.data.entities.projects.ProjectVote;
 import com.pixlabs.data.entities.projects.pldata.DataSet;
-import com.pixlabs.data.entities.projects.pldata.DataSetVotes;
+import com.pixlabs.data.entities.projects.pldata.DataSetVote;
 
 import javax.persistence.*;
 import java.util.*;
@@ -60,7 +60,7 @@ public class User {
             joinColumns = {@JoinColumn(name="user_id",referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name="projectVote_id",referencedColumnName = "id")}
     )
-    private List<ProjectVotes> projectVotes = new LinkedList<>();
+    private List<ProjectVote> projectVotes = new LinkedList<>();
 
     @OneToMany
     @JoinTable(
@@ -68,7 +68,7 @@ public class User {
             joinColumns = {@JoinColumn(name="user_id",referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name="dataSetVote_id",referencedColumnName = "id")}
     )
-    private List<DataSetVotes> dataSetVotes = new LinkedList<>();
+    private List<DataSetVote> dataSetVotes = new LinkedList<>();
 
 
     public List<DataSet> getDataSets() {
@@ -223,19 +223,31 @@ public class User {
         this.dataSets.add(dataSet);
     }
 
-    public List<ProjectVotes> getProjectVotes() {
+    public List<ProjectVote> getProjectVotes() {
         return projectVotes;
     }
 
-    public void setProjectVotes(List<ProjectVotes> projectVotes) {
+    public void setProjectVotes(List<ProjectVote> projectVotes) {
         this.projectVotes = projectVotes;
     }
 
-    public List<DataSetVotes> getDataSetVotes() {
+    public List<DataSetVote> getDataSetVotes() {
         return dataSetVotes;
     }
 
-    public void setDataSetVotes(List<DataSetVotes> dataSetVotes) {
+    public void setDataSetVotes(List<DataSetVote> dataSetVotes) {
         this.dataSetVotes = dataSetVotes;
     }
+
+    public User addDataSetVote(DataSetVote vote){
+        if(!this.dataSetVotes.contains(vote)){
+            dataSetVotes.add(vote);
+    }
+    return this;}
+    public User addProjectVote(ProjectVote vote){
+        projectVotes.removeIf(i->i.getProject().equals(vote.getProject()));
+        projectVotes.add(vote);
+        return this;
+    }
+
 }

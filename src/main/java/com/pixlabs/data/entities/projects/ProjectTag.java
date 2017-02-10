@@ -2,6 +2,7 @@ package com.pixlabs.data.entities.projects;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -40,7 +41,8 @@ public class ProjectTag implements Comparable{
     }
 
     @ManyToMany(mappedBy = "tagList",fetch = FetchType.LAZY)
-    private List<Project> projects;
+    private List<Project> projects = new ArrayList<>();
+
 
     public ProjectTag(){}
 
@@ -72,11 +74,7 @@ public class ProjectTag implements Comparable{
     }
 
     public void removeProject(Project project){
-        for(Project p:projects){
-            if(p.equals(project)){
-                projects.remove(project);
-            }
-        }
+        projects.removeIf(p -> p.equals(project));
     }
 
 

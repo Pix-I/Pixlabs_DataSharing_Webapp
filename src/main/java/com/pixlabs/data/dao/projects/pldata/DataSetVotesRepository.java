@@ -1,15 +1,15 @@
 package com.pixlabs.data.dao.projects.pldata;
 
-import com.pixlabs.data.entities.projects.pldata.DataSetVotes;
+import com.pixlabs.data.entities.projects.pldata.DataSetVote;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * Created by pix-i on 08/02/2017.
  * ${Copyright}
  */
-public interface DataSetVotesRepository extends JpaRepository<DataSetVotes,Long> {
+public interface DataSetVotesRepository extends JpaRepository<DataSetVote,Long> {
 
     @Override
-    void delete(DataSetVotes dataSetVotes);
+    void delete(DataSetVote dataSetVote);
 
 }

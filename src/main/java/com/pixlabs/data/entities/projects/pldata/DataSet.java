@@ -48,7 +48,7 @@ public class DataSet{
             joinColumns = @JoinColumn(name = "dataSet_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "dataSetVote_id",referencedColumnName = "id")
     )
-    private List<DataSetVotes> votes = new LinkedList<>();
+    private List<DataSetVote> votes = new LinkedList<>();
 
 
     private boolean isPublic;
@@ -99,8 +99,8 @@ public class DataSet{
         this.open = open;
     }
 
-    public ArrayList<DataUnit> getDataList() {
-        return (ArrayList<DataUnit>) dataList;
+    public List<DataUnit> getDataList() {
+        return dataList;
     }
 
     public void setDataList(ArrayList<DataUnit> dataList) {
@@ -149,11 +149,11 @@ public class DataSet{
     }
 
 
-    public List<DataSetVotes> getVotes() {
+    public List<DataSetVote> getVotes() {
         return votes;
     }
 
-    public void setVotes(List<DataSetVotes> votes) {
+    public void setVotes(List<DataSetVote> votes) {
         this.votes = votes;
     }
 }

@@ -12,13 +12,13 @@ import javax.persistence.ManyToOne;
  * ${Copyright}
  */
 @Entity
-public class DataSetVotes {    @GeneratedValue
+public class DataSetVote {    @GeneratedValue
 @Id
 private long id;
 
     /**
-     * Should be @ManyToOne, as a user can have multiple ProjectVotes
-     * and a Project is linked to all the ProjectVotes for that Project.
+     * Should be @ManyToOne, as a user can have multiple ProjectVote
+     * and a Project is linked to all the ProjectVote for that Project.
      * //TODO Maybe add a "recent history" to user.
      */
     @ManyToOne
@@ -32,7 +32,7 @@ private long id;
     /**
      * Constructor for JPA
      */
-    public DataSetVotes(){}
+    public DataSetVote(){}
 
 
     public long getId() {
@@ -68,9 +68,19 @@ private long id;
     }
 
     /**
-     * Should be @ManyToOne, projects have multiple ProjectVotes, but ProjectVotes only
+     * Should be @ManyToOne, projects have multiple ProjectVote, but ProjectVote only
      * have one Project.
      */
     @ManyToOne
     private DataSet dataSet;
+
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof DataSetVote){
+            DataSetVote v = (DataSetVote) o;
+            return v.getUser().equals(user) && v.getDataSet().equals(dataSet);
+        }
+        return false;
+    }
+
 }

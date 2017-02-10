@@ -54,8 +54,7 @@ public class Project {
     private Date creationDate;
     private Date modificationDate;
 
-    private int totalUpVotes;
-    private int totalDownVotes;
+    private int totalUpVotes = 0;
 
     @OneToMany
     @JoinTable(
@@ -63,8 +62,15 @@ public class Project {
             joinColumns = @JoinColumn(name = "project_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "projectVote_id",referencedColumnName = "id")
     )
-    private List<ProjectVotes> votes = new LinkedList<>();
+    private List<ProjectVote> votes = new LinkedList<>();
 
+    public List<ProjectVote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(LinkedList<ProjectVote> votes) {
+        this.votes = votes;
+    }
 
     private boolean restricted = true;
 
@@ -95,18 +101,6 @@ public class Project {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Project{" +
-                "id=" + id +
-                ", users=" + owner +
-                ", title='" + title + '\'' +
-                ", tags='" + tagList.toString() + '\'' +
-                ", creationDate=" + creationDate +
-                ", restricted=" + restricted +
-                '}';
     }
 
     public long getId() {
@@ -180,19 +174,39 @@ public class Project {
         this.totalUpVotes = totalUpVotes;
     }
 
-    public int getTotalDownVotes() {
-        return totalDownVotes;
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", owner=" + owner +
+                ", dataSets=" + dataSets +
+                ", description='" + description + '\'' +
+                ", title='" + title + '\'' +
+                ", tagList=" + tagList +
+                ", creationDate=" + creationDate +
+                ", modificationDate=" + modificationDate +
+                ", totalUpVotes=" + totalUpVotes +
+                ", votes=" + votes +
+                ", restricted=" + restricted +
+                '}';
     }
 
-    public void setTotalDownVotes(int totalDownVotes) {
-        this.totalDownVotes = totalDownVotes;
+    public void addVote(ProjectVote projectVote) {
+        totalUpVotes += projectVote.getVote();
+        this.votes.add(projectVote);
     }
 
-    public List<ProjectVotes> getVotes() {
-        return votes;
-    }
-
-    public void setVotes(List<ProjectVotes> votes) {
-        this.votes = votes;
+    public ProjectVote updateVote(User activeUser, int value) {
+        totalUpVotes +=value;
+        for(ProjectVote vote:votes){
+            if(vote.getUser().equals(activeUser)) {
+                totalUpVotes -=vote.getVote();
+                vote.setVote(value);
+                return vote;
+            }
+        }
+        ProjectVote vote = new ProjectVote(activeUser,this,value);
+        votes.add(vote);
+        return vote;
     }
 }

@@ -14,10 +14,13 @@ import java.util.Map;
  */
 public interface ProjectService {
 
-    void createProject(String title, String description, String tags, User user);
+    Project createProject(String title, String description, String tags, User user);
 
     @Transactional
     LinkedList<Project> findProjectsByTag(String tags);
+
+    @Transactional
+    void setProjectPublic(User user, Project project, boolean flag);
 
     @Transactional
     void updateTags(User user, Project project, String tags);
@@ -41,5 +44,5 @@ public interface ProjectService {
     boolean connectDataSet(User activeUser, Project project, String dataSetName);
 
     @Transactional
-    Project getProjectByTitle(String title);
+    Project getProjectByTitle(User testOtherUser, String title);
 }
