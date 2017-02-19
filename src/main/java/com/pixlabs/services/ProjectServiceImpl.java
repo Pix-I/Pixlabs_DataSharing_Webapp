@@ -292,11 +292,34 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    @Transactional
     public Project getProjectByTitle(User activeUser,String title) {
         Project project = projectRepository.findByTitle(title);
         hasPermission(activeUser,project);
         return project;
     }
+
+    @Override
+    @Transactional
+    public DataSet getDataSet(User user, String dataSetName){
+        DataSet dataSet = dataSetRepository.findByName(dataSetName);
+        if(dataSet==null)
+            throw new EntityNotFoundException("There's no existing dataset with that name.");
+        if(!dataSet.isPublic()||!dataSet.getDataSetOwner().equals(user))
+            throw new PermissionDeniedException("The user doesn't have the right to access this set");
+        return dataSet;
+    }
+
+    @Override
+    @Transactional
+    public void setDataSetPublic(User user,DataSet dataSet,boolean flag){
+        if(!dataSet.isPublic()||!dataSet.getDataSetOwner().equals(user))
+            throw new PermissionDeniedException("The user doesn't have the right to access this set");
+        dataSet.setPublic(flag);
+        dataSetRepository.save(dataSet);
+    }
+
+
 
 
     @Inject

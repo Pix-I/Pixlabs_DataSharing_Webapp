@@ -2,6 +2,7 @@ package com.pixlabs.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
@@ -13,8 +14,9 @@ import java.util.Properties;
  * ${Copyright}
  */
 
+
 @Configuration
-//@PropertySource()
+@PropertySource("classpath:mail.properties")
 public class AppConfig {
 
     @Inject

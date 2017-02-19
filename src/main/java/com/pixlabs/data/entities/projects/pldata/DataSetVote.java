@@ -75,7 +75,16 @@ private long id;
     private DataSet dataSet;
 
     @Override
-    public boolean equals(Object o){
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((user == null) ? 0 : user.hashCode());
+        return result;
+    }
+
+
+    @Override
+    public boolean equals(final Object o){
         if(o instanceof DataSetVote){
             DataSetVote v = (DataSetVote) o;
             return v.getUser().equals(user) && v.getDataSet().equals(dataSet);

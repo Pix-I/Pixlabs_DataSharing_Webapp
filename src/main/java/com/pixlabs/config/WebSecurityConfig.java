@@ -29,7 +29,7 @@ import javax.inject.Inject;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private String[] publicStuff = {"/index","/","/static/css/**","/css/**","/js/**","/img/**","/auth/**","/user/**","/login*","/auth/logout"};
+    private String[] publicStuff = {"/index","/data/get/**","/","/static/css/**","/css/**","/js/**","/img/**","/auth/**","/user/**","/login*","/auth/logout"};
 
     private UserDetailsService userDetailsService;
     private UserRepository userRepository;

@@ -1,6 +1,7 @@
 package com.pixlabs.services;
 
 import com.pixlabs.data.entities.projects.Project;
+import com.pixlabs.data.entities.projects.pldata.DataSet;
 import com.pixlabs.data.entities.projects.pldata.DataUnit;
 import com.pixlabs.data.entities.user.User;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,4 +46,10 @@ public interface ProjectService {
 
     @Transactional
     Project getProjectByTitle(User testOtherUser, String title);
+
+    @Transactional
+    DataSet getDataSet(User user, String dataSetName);
+
+    @Transactional
+    void setDataSetPublic(User user, DataSet dataSet, boolean flag);
 }

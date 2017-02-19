@@ -238,6 +238,12 @@ public class ProjectServiceTest {
         projectService.getProjectByTitle(testOtherUser,"dummy_1");
     }
 
+    @Test(expected = PermissionDeniedException.class)
+    public void getDataSetFailure(){
+        DataSet dummySet = dataSetRepository.findByName("dummyDataSet");
+        projectService.setDataSetPublic(testUser,dummySet,false);
+        projectService.getDataSet(testOtherUser,"dummyDataSet");
+    }
 
 
     @Inject

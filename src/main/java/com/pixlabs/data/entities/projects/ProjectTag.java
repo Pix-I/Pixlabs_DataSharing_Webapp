@@ -35,8 +35,19 @@ public class ProjectTag implements Comparable{
     }
 
     @Override
-    public boolean equals(Object o) {
-        return o instanceof ProjectTag && ((ProjectTag) o).getId() == this.id
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        return o == this || o != null
+                && getClass() == o.getClass()
+                && o instanceof ProjectTag
+                && ((ProjectTag) o).getId() == this.id
                 && ((ProjectTag) o).getName().equals(this.name);
     }
 
